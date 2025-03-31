@@ -96,21 +96,21 @@ function QualityReader() {
         {/* 품질 결과 패널 */}
         <div className="quality-results">
           <div className="quality-panel">
-            <h3>목걸이 품질판독값</h3>
+            <h3>목걸이</h3>
             <div className={`quality-value ${getQualityColor(results.목걸이)}`}>
               {getQualityText(results.목걸이)}
             </div>
           </div>
           
           <div className="quality-panel">
-            <h3>귀걸이 품질판독값</h3>
+            <h3>귀걸이</h3>
             <div className={`quality-value ${getQualityColor(results.귀걸이)}`}>
               {getQualityText(results.귀걸이)}
             </div>
           </div>
           
           <div className="quality-panel">
-            <h3>반지 품질판독값</h3>
+            <h3>반지</h3>
             <div className={`quality-value ${getQualityColor(results.반지)}`}>
               {getQualityText(results.반지)}
             </div>

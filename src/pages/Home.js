@@ -12,7 +12,7 @@ function Home() {
     {
       id: 'quality-reader',
       name: '품질 판독기',
-      description: '아이템 품질을 계산하고 분석하는 도구',
+      description: '장신구 품질 판독기',
       path: '/quality-reader'
     }
     // 추후 다른 도구들을 여기에 추가할 수 있습니다
