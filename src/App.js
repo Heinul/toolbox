@@ -6,6 +6,7 @@ import './App.css';
 import Home from './pages/Home';
 import Calculator from './pages/Calculator';
 import QualityReader from './pages/QualityReader';
+import SpecLog from './pages/SpecLog';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/quality-reader" element={<QualityReader />} />
+            <Route path="/spec-log" element={<SpecLog />} />
           </Routes>
         </main>
         <footer className="App-footer">

@@ -14,6 +14,12 @@ function Home() {
       name: '품질 판독기',
       description: '장신구 품질 판독기',
       path: '/quality-reader'
+    },
+    {
+      id: 'spec-log',
+      name: '스펙로그',
+      description: '스펙 로그 검색 기능',
+      path: '/spec-log'
     }
     // 추후 다른 도구들을 여기에 추가할 수 있습니다
   ];
