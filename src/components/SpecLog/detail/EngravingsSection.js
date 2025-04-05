@@ -25,14 +25,15 @@ const EngravingsSection = ({ newData, oldData, hasComparison }) => {
             <div key={index} className={`engraving-item ${hasChanged ? 'item-changed' : ''}`}>
               <div className="engraving-name">{engr[0]}</div>
               <div className="engraving-level">
-                {engr[1][0] > 0 && `각인 ${engr[1][0]}`}
-                {engr[1][1] > 0 && ` Lv.${engr[1][1]}`}
+                <div>등급: {engr[1][0]}</div>
+                <div>레벨: {engr[1][1]}</div>
                 
                 {hasChanged && (
-                  <span className={`change-value ${totalNew > totalOld ? 'positive' : 'negative'}`}>
-                    ({oldEngr[1][0] > 0 ? `각인 ${oldEngr[1][0]}` : ''}
-                    {oldEngr[1][1] > 0 ? ` Lv.${oldEngr[1][1]}` : ''} →)
-                  </span>
+                  <div className={`change-value ${totalNew > totalOld ? 'positive' : 'negative'}`}>
+                    (변경됨: 
+                    {oldEngr[1][0] > 0 ? ` 등급 ${oldEngr[1][0]}` : ''}
+                    {oldEngr[1][1] > 0 ? ` 레벨 ${oldEngr[1][1]}` : ''} →)
+                  </div>
                 )}
               </div>
             </div>
@@ -47,11 +48,11 @@ const EngravingsSection = ({ newData, oldData, hasComparison }) => {
             <div key={`removed-${index}`} className="engraving-item removed-item">
               <div className="engraving-name">{removedEngr[0]}</div>
               <div className="engraving-level">
-                <span className="change-value negative">
-                  (삭제됨 - 
-                  {removedEngr[1][0] > 0 ? `각인 ${removedEngr[1][0]}` : ''}
-                  {removedEngr[1][1] > 0 ? ` Lv.${removedEngr[1][1]}` : ''})
-                </span>
+                <div>삭제됨</div>
+                <div>
+                  {removedEngr[1][0] > 0 ? `등급 ${removedEngr[1][0]}` : ''}
+                  {removedEngr[1][1] > 0 ? ` 레벨 ${removedEngr[1][1]}` : ''}
+                </div>
               </div>
             </div>
           ))
