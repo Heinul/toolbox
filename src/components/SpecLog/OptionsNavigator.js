@@ -7,9 +7,37 @@ import React, { useState, useEffect, useRef } from 'react';
  * @param {Function} props.onOptionChange - 옵션 변경 시 호출할 함수
  * @returns {JSX.Element} - 옵션 네비게이터 컴포넌트
  */
-const OptionsNavigator = ({ options, onOptionChange }) => {
+const OptionsNavigator = ({ options = {}, onOptionChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+
+  // 기본 설정
+  const defaultOptions = {
+    equipment: {
+      showImages: true,
+      showGrade: true,
+      showQuality: true,
+      showRefine: true,
+      showHigherRefine: true,
+      showTranscendence: true,
+      showElixir: true
+    },
+    accessory: {
+      showImages: true,
+      showGrade: true,
+      showQuality: true
+    },
+    abilityStone: {
+      show: true
+    }
+  };
+  
+  // 맞추기, 전달받은 옵션에 누락된 값이 있을 수 있음
+  const mergedOptions = {
+    equipment: { ...defaultOptions.equipment, ...(options.equipment || {}) },
+    accessory: { ...defaultOptions.accessory, ...(options.accessory || {}) },
+    abilityStone: { ...defaultOptions.abilityStone, ...(options.abilityStone || {}) }
+  };
 
   // 메뉴 외부 클릭 시 닫기
   useEffect(() => {
@@ -51,13 +79,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>이미지 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showImages ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showImages ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showImages', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showImages ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showImages ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showImages', false)}
                   >
                     숨기기
@@ -68,13 +96,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>등급 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showGrade ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showGrade ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showGrade', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showGrade ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showGrade ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showGrade', false)}
                   >
                     숨기기
@@ -85,13 +113,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>품질 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showQuality ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showQuality ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showQuality', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showQuality ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showQuality ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showQuality', false)}
                   >
                     숨기기
@@ -102,13 +130,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>재련 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showRefine ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showRefine ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showRefine', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showRefine ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showRefine ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showRefine', false)}
                   >
                     숨기기
@@ -119,13 +147,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>상급 재련 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showHigherRefine ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showHigherRefine ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showHigherRefine', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showHigherRefine ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showHigherRefine ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showHigherRefine', false)}
                   >
                     숨기기
@@ -136,13 +164,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>초월 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showTranscendence ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showTranscendence ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showTranscendence', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showTranscendence ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showTranscendence ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showTranscendence', false)}
                   >
                     숨기기
@@ -153,13 +181,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>엘릭서 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.equipment.showElixir ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.equipment.showElixir ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showElixir', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.equipment.showElixir ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.equipment.showElixir ? 'active' : ''}`}
                     onClick={() => handleOptionChange('equipment', 'showElixir', false)}
                   >
                     숨기기
@@ -176,13 +204,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>이미지 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.accessory.showImages ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.accessory.showImages ? 'active' : ''}`}
                     onClick={() => handleOptionChange('accessory', 'showImages', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.accessory.showImages ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.accessory.showImages ? 'active' : ''}`}
                     onClick={() => handleOptionChange('accessory', 'showImages', false)}
                   >
                     숨기기
@@ -193,13 +221,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>등급 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.accessory.showGrade ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.accessory.showGrade ? 'active' : ''}`}
                     onClick={() => handleOptionChange('accessory', 'showGrade', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.accessory.showGrade ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.accessory.showGrade ? 'active' : ''}`}
                     onClick={() => handleOptionChange('accessory', 'showGrade', false)}
                   >
                     숨기기
@@ -210,13 +238,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>품질 표기</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.accessory.showQuality ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.accessory.showQuality ? 'active' : ''}`}
                     onClick={() => handleOptionChange('accessory', 'showQuality', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.accessory.showQuality ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.accessory.showQuality ? 'active' : ''}`}
                     onClick={() => handleOptionChange('accessory', 'showQuality', false)}
                   >
                     숨기기
@@ -233,13 +261,13 @@ const OptionsNavigator = ({ options, onOptionChange }) => {
                 <label>표시 여부</label>
                 <div className="option-toggle">
                   <button 
-                    className={`toggle-btn ${options.abilityStone.show ? 'active' : ''}`}
+                    className={`toggle-btn ${mergedOptions.abilityStone.show ? 'active' : ''}`}
                     onClick={() => handleOptionChange('abilityStone', 'show', true)}
                   >
                     표기
                   </button>
                   <button 
-                    className={`toggle-btn ${!options.abilityStone.show ? 'active' : ''}`}
+                    className={`toggle-btn ${!mergedOptions.abilityStone.show ? 'active' : ''}`}
                     onClick={() => handleOptionChange('abilityStone', 'show', false)}
                   >
                     숨기기

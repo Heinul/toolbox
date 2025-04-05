@@ -125,29 +125,35 @@ const DataDetail = ({ data, comparison = null, options = {} }) => {
         )}
       </div>
 
-      <GemsSection 
-        newData={newData} 
-        oldData={oldData}
-        hasComparison={hasComparison}
-      />
+      <div className="info-container">
+        <div className="left-column">
+          <GemsSection 
+            newData={newData} 
+            oldData={oldData}
+            hasComparison={hasComparison}
+          />
 
-      <ArkNodesSection 
-        newData={newData} 
-        oldData={oldData}
-        hasComparison={hasComparison}
-      />
+          <ArkNodesSection 
+            newData={newData} 
+            oldData={oldData}
+            hasComparison={hasComparison}
+          />
+        </div>
+        
+        <div className="right-column">
+          <EngravingsSection 
+            newData={newData} 
+            oldData={oldData}
+            hasComparison={hasComparison}
+          />
 
-      <EngravingsSection 
-        newData={newData} 
-        oldData={oldData}
-        hasComparison={hasComparison}
-      />
-
-      <CardsSection 
-        newData={newData} 
-        oldData={oldData}
-        hasComparison={hasComparison}
-      />
+          <CardsSection 
+            newData={newData} 
+            oldData={oldData}
+            hasComparison={hasComparison}
+          />
+        </div>
+      </div>
     </div>
   );
 };
