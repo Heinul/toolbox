@@ -9,9 +9,8 @@ const EngravingsSection = ({ newData, oldData, hasComparison }) => {
     <div className="data-engravings">
       <h4>각인 정보</h4>
       <div className="engravings-list">
-        {/* 현재 있는 각인 표시 */}
+        {/* 각인 정보 처리 로직 */}
         {newData.display.engr.map((engr, index) => {
-          // 비교를 위한 로직 추가
           const oldEngr = hasComparison && oldData.display && oldData.display.engr && 
                 oldData.display.engr.find(e => e[0] === engr[0]);
           
@@ -36,18 +35,6 @@ const EngravingsSection = ({ newData, oldData, hasComparison }) => {
                   </span>
                 )}
               </div>
-              
-              {/* 이전 각인 정보 툴팁 */}
-              {hasChanged && (
-                <div className="item-tooltip">
-                  <div className="tooltip-title">이전 각인 정보</div>
-                  <div className="tooltip-content">
-                    <div><strong>각인:</strong> {engr[0]}</div>
-                    <div><strong>레벨:</strong> {oldEngr[1][0] > 0 ? `각인 ${oldEngr[1][0]}` : ''} {oldEngr[1][1] > 0 ? `Lv.${oldEngr[1][1]}` : ''}</div>
-                    <div><strong>총 레벨:</strong> {totalOld}</div>
-                  </div>
-                </div>
-              )}
             </div>
           );
         })}
@@ -65,16 +52,6 @@ const EngravingsSection = ({ newData, oldData, hasComparison }) => {
                   {removedEngr[1][0] > 0 ? `각인 ${removedEngr[1][0]}` : ''}
                   {removedEngr[1][1] > 0 ? ` Lv.${removedEngr[1][1]}` : ''})
                 </span>
-              </div>
-              
-              {/* 삭제된 각인 정보 툴팁 */}
-              <div className="item-tooltip">
-                <div className="tooltip-title">삭제된 각인 정보</div>
-                <div className="tooltip-content">
-                  <div><strong>각인:</strong> {removedEngr[0]}</div>
-                  <div><strong>레벨:</strong> {removedEngr[1][0] > 0 ? `각인 ${removedEngr[1][0]}` : ''} {removedEngr[1][1] > 0 ? `Lv.${removedEngr[1][1]}` : ''}</div>
-                  <div><strong>총 레벨:</strong> {removedEngr[1][0] + removedEngr[1][1]}</div>
-                </div>
               </div>
             </div>
           ))

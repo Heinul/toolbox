@@ -1,14 +1,14 @@
 /* 보석, 각인, 카드 관련 스타일 */
 
 /* 보석 스타일 */
-.gems-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 15px;
-  margin-top: 10px;
+.gems-skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.gem-skill-group {
+.gems-skill-group {
+  width: 250px; /* 고정 너비 */
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -16,12 +16,7 @@
   transition: all 0.2s ease;
 }
 
-.gem-skill-group:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.gem-skill-name {
+.skill-name {
   background-color: #f5f5f5;
   color: #333;
   font-weight: 600;
@@ -30,38 +25,38 @@
   font-size: 0.9rem;
 }
 
-.gem-list {
-  padding: 8px;
-  display: flex;
-  flex-wrap: wrap;
+.skill-gems {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 8px;
+  padding: 10px;
 }
 
-.gem-item-small {
+.gem-item {
   display: flex;
   align-items: center;
   gap: 6px;
   background-color: #f8f9fa;
   border-radius: 4px;
   padding: 4px 6px;
-  width: 100%;
+  width: 100px; /* 고정 너비 */
 }
 
-.gem-icon-small img {
+.gem-icon img {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   object-fit: contain;
 }
 
-.gem-detail {
+.gem-details {
   display: flex;
-  align-items: center;
-  gap: 5px;
+  flex-direction: column;
+  gap: 2px;
   font-size: 0.8rem;
 }
 
-.gem-level-small {
+.gem-level {
   font-weight: bold;
   color: #333;
 }
@@ -72,47 +67,48 @@
 
 /* 각인 스타일 */
 .engravings-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 10px;
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .engraving-item {
-  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
   border-radius: 6px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
+  padding: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.03);
   transition: all 0.2s ease;
-}
-
-.engraving-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
 .engraving-name {
   font-weight: 600;
   color: #333;
+  margin-bottom: 4px;
 }
 
 .engraving-level {
   font-size: 0.9rem;
   color: #666;
-  background-color: #f3f4f6;
-  padding: 3px 8px;
-  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.engraving-item.item-changed {
-  box-shadow: 0 0 0 2px rgba(234, 179, 8, 0.5), 0 2px 4px rgba(0,0,0,0.05);
+.change-value {
+  font-size: 0.8rem;
+  margin-left: 10px;
 }
 
-/* 삭제된 아이템 스타일 */
+.change-value.positive {
+  color: #10b981;
+}
+
+.change-value.negative {
+  color: #ef4444;
+}
+
 .removed-item {
   background-color: rgba(231, 76, 60, 0.05);
   border: 1px dashed rgba(231, 76, 60, 0.3);

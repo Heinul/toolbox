@@ -12,14 +12,6 @@ import ArkNodesSection from './detail/ArkNodesSection';
 import EngravingsSection from './detail/EngravingsSection';
 import CardsSection from './detail/CardsSection';
 
-/**
- * 캐릭터 데이터 세부 정보 표시 컴포넌트
- * @param {Object} props - 컴포넌트 props
- * @param {Object} props.data - 표시할 캐릭터 데이터
- * @param {Object} props.comparison - 비교 데이터 (선택적)
- * @param {Object} props.options - 화면 표시 옵션
- * @returns {JSX.Element} - 데이터 세부 정보 컴포넌트
- */
 const DataDetail = ({ data, comparison = null, options = {} }) => {
   if (!data) return <div className="no-data">표시할 데이터가 없습니다.</div>;
 
@@ -125,33 +117,37 @@ const DataDetail = ({ data, comparison = null, options = {} }) => {
         )}
       </div>
 
-      <div className="info-container">
-        <div className="left-column">
+      <div className="detail-info-container">
+        <div className="gems-section">
           <GemsSection 
             newData={newData} 
             oldData={oldData}
             hasComparison={hasComparison}
           />
-
-          <ArkNodesSection 
-            newData={newData} 
-            oldData={oldData}
-            hasComparison={hasComparison}
-          />
         </div>
-        
-        <div className="right-column">
-          <EngravingsSection 
-            newData={newData} 
-            oldData={oldData}
-            hasComparison={hasComparison}
-          />
 
-          <CardsSection 
-            newData={newData} 
-            oldData={oldData}
-            hasComparison={hasComparison}
-          />
+        <div className="lower-info-container">
+          <div className="lower-left-column">
+            <ArkNodesSection 
+              newData={newData} 
+              oldData={oldData}
+              hasComparison={hasComparison}
+            />
+          </div>
+          
+          <div className="lower-right-column">
+            <EngravingsSection 
+              newData={newData} 
+              oldData={oldData}
+              hasComparison={hasComparison}
+            />
+
+            <CardsSection 
+              newData={newData} 
+              oldData={oldData}
+              hasComparison={hasComparison}
+            />
+          </div>
         </div>
       </div>
     </div>
