@@ -1,0 +1,50 @@
+/* 툴팁 스타일 */
+.item-tooltip {
+  display: none;
+  position: absolute;
+  z-index: 100;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 220px;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  pointer-events: none;
+}
+
+.equipment-item:hover .item-tooltip,
+.engraving-item:hover .item-tooltip {
+  display: block;
+}
+
+.equipment-details,
+.engraving-item {
+  position: relative;
+}
+
+.tooltip-title {
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #edf2f7;
+  color: #2d3748;
+}
+
+.tooltip-content {
+  font-size: 0.8rem;
+  color: #4a5568;
+  line-height: 1.4;
+}
+
+.tooltip-content > div {
+  margin-bottom: 4px;
+}
+
+.tooltip-content strong {
+  color: #2d3748;
+  margin-right: 4px;
+}

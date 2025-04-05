@@ -1,0 +1,162 @@
+/* 그래프 및 날짜 선택기 스타일 */
+
+/* 결과 컨테이너 */
+.results-container {
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.results-container.minimized .graph-section {
+  max-height: 150px;
+  overflow: hidden;
+}
+
+/* 그래프 섹션 */
+.graph-section {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: max-height 0.3s ease, transform 0.3s ease;
+}
+
+.graph-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.score-graph-container {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+/* 그래프 툴팁 스타일 */
+.score-tooltip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.score-tooltip .date {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* 날짜 선택기 섹션 */
+.date-selector-section {
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: #fff;
+  padding: 15px 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e4e8;
+}
+
+.date-selector-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+  transition: all 0.3s ease;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto;
+}
+
+.date-selector-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.date-selector-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.date-selector-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.date-selector-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.date-selector-container.minimized {
+  padding: 5px 0;
+}
+
+.date-items-wrapper {
+  display: flex;
+  gap: 10px;
+  min-width: 100%;
+}
+
+.date-item {
+  flex: 0 0 auto;
+  padding: 12px 18px;
+  background-color: #fff;
+  border: 1px solid #e0e4e8;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.date-selector-container.minimized .date-item {
+  padding: 8px 12px;
+  min-width: 100px;
+}
+
+.date-item:hover {
+  background-color: #f0f4f8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.date-item.selected {
+  border-color: #4a6da7;
+  background-color: #e7eef9;
+  box-shadow: 0 3px 6px rgba(74, 109, 167, 0.2);
+}
+
+.date-item.fixed {
+  border-width: 2px;
+  box-shadow: 0 0 0 2px rgba(74, 109, 167, 0.3), 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.date-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.date-time {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.date-score {
+  font-size: 0.8rem;
+}
+
+.score-change {
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.score-change.positive {
+  color: #2ecc71;
+}
+
+.score-change.negative {
+  color: #e74c3c;
+}

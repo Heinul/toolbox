@@ -1,0 +1,98 @@
+/* 데이터 요약 및 상세 정보 스타일 */
+
+/* 데이터 세부 정보 섹션 */
+.data-details-section {
+  margin-top: 30px;
+}
+
+.no-selection-message {
+  text-align: center;
+  color: #6c757d;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #ced4da;
+}
+
+.selected-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.selected-data-item {
+  border: 1px solid #dee2e6;
+  border-radius: 12px;
+  padding: 25px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.selected-data-item:hover {
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* 데이터 세부 정보 스타일 */
+.data-detail-container {
+  width: 100%;
+}
+
+.data-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.item-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.detail-item {
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  border: 1px solid #e0e4e8;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+.detail-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 변경값 표시 스타일 */
+.change-value {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.change-value.positive {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+}
+
+.change-value.negative {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+}
