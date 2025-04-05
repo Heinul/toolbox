@@ -133,118 +133,122 @@ const DataDetail = ({ data, comparison = null }) => {
         </div>
       </div>
 
-      {newData.display && newData.display.arkp && (
-        <div className="data-arkp">
-          <h4>아크 노드 정보</h4>
-          <div className="arkp-section">
-            {newData.display.arkp.points && Object.entries(newData.display.arkp.points).map(([nodeType, points]) => (
-              <div key={nodeType} className="arkp-points">
-                <div className="node-type">{nodeType}</div>
-                <div className="node-points">{points} 포인트</div>
-              </div>
-            ))}
-          </div>
-          
-          {newData.display.arkp.nodes && Object.entries(newData.display.arkp.nodes).map(([nodeType, tiers]) => (
-            <div key={nodeType} className="arkp-nodes">
-              <h5>{nodeType} 노드</h5>
-              <div className="tiers-container">
-                {Object.entries(tiers).map(([tier, nodes]) => (
-                  <div key={tier} className="tier-group">
-                    <div className="tier-name">{tier}</div>
-                    <div className="nodes-list">
-                      {nodes.map((node, index) => (
-                        <div key={index} className="node-item">
-                          {node[2] && (
-                            <div className="node-icon">
-                              <img src={node[3] || getIconUrl(node[2])} alt={node[0]} />
-                            </div>
-                          )}
-                          <div className="node-info">
-                            <div className="node-name">{node[0]}</div>
-                            <div className="node-level">Lv.{node[1]}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
       <div className="data-equipment">
         <h4>장비 정보</h4>
         {newData.display && newData.display.equipment && (
-          <div className="equipment-grid">
-            {Object.entries(newData.display.equipment).map(([slot, item]) => (
-              <div key={slot} className="equipment-item">
-                <div className="equipment-header">
-                  <div className="slot-name">{slot}</div>
-                  <div className="item-name">{item.Name}</div>
-                </div>
-                <div className="equipment-details">
-                  {item.Icon && (
-                    <div className="item-icon">
-                      <img src={item.IconUrl || getIconUrl(item.Icon)} alt={item.Name} />
+          <div className="equipment-container">
+            <div className="equipment-section">
+              <h5>장비</h5>
+              <div className="equipment-grid">
+                {[
+                  '투구', '어깨', '상의', '하의', '장갑', '무기'
+                ].map(slotName => {
+                  if (!newData.display.equipment[slotName]) return null;
+                  const item = newData.display.equipment[slotName];
+                  return (
+                    <div 
+                      key={slotName} 
+                      className={`equipment-item ${item.Grade ? item.Grade.toLowerCase() : ''}`}
+                    >
+                      <div className="equipment-header">
+                        <div className="slot-name">{slotName}</div>
+                        <div className="item-name">{item.Name}</div>
+                      </div>
+                      <div className="equipment-details">
+                        {item.Icon && (
+                          <div className="item-icon">
+                            <img src={item.IconUrl || getIconUrl(item.Icon)} alt={item.Name} />
+                          </div>
+                        )}
+                        {item.Grade && <div>등급: {item.Grade}</div>}
+                        {item.품질 && <div>품질: {item.품질}</div>}
+                        {item.재련 && <div>재련: +{item.재련}</div>}
+                        {item.상급재련 && <div>상급 재련: +{item.상급재련}</div>}
+                        {item.초월 && Array.isArray(item.초월) && (
+                          <div>초월: {item.초월[0]}단계 {item.초월[1]}등급</div>
+                        )}
+                        {/* 엘릭서 레벨 */}
+                        {item['엘릭서 레벨'] && Array.isArray(item['엘릭서 레벨']) && (
+                          <div className="elixir-levels">
+                            <div className="effect-title">엘릭서:</div>
+                            {item['엘릭서 레벨'].map((elixir, idx) => (
+                              <div key={idx} className="elixir-level">
+                                {elixir[0]} Lv.{elixir[1]}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  )}
-                  {item.Grade && <div>등급: {item.Grade}</div>}
-                  {item.품질 && <div>품질: {item.품질}</div>}
-                  {item.재련 && <div>재련: +{item.재련}</div>}
-                  {item.상급재련 && <div>상급 재련: +{item.상급재련}</div>}
-                  {item.초월 && Array.isArray(item.초월) && (
-                    <div>초월: {item.초월[0]}단계 {item.초월[1]}등급</div>
-                  )}
-                  {/* 악세사리 연마 효과 */}
-                  {item['연마 효과'] && Array.isArray(item['연마 효과']) && (
-                    <div className="polish-effects">
-                      <div className="effect-title">연마 효과:</div>
-                      {item['연마 효과'].map((effect, idx) => (
-                        <div key={idx} className="polish-effect">
-                          {effect[0]}: {effect[1]}{effect[2]}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {/* 팔찌 기본 옵션 */}
-                  {item['기본옵'] && Array.isArray(item['기본옵']) && (
-                    <div className="base-options">
-                      <div className="effect-title">기본 옵션:</div>
-                      {item['기본옵'].map((opt, idx) => (
-                        <div key={idx} className="base-option">
-                          {opt[0]}: +{opt[1]}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {/* 팔찌 특수 옵션 */}
-                  {item['특옵'] && Array.isArray(item['특옵']) && (
-                    <div className="special-options">
-                      <div className="effect-title">특수 옵션:</div>
-                      {item['특옵'].map((opt, idx) => (
-                        <div key={idx} className="special-option">
-                          {opt[0]}{opt.length > 1 ? ` Lv.${opt[1]}` : ''}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  {/* 엘릭서 레벨 */}
-                  {item['엘릭서 레벨'] && Array.isArray(item['엘릭서 레벨']) && (
-                    <div className="elixir-levels">
-                      <div className="effect-title">엘릭서:</div>
-                      {item['엘릭서 레벨'].map((elixir, idx) => (
-                        <div key={idx} className="elixir-level">
-                          {elixir[0]} Lv.{elixir[1]}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                  );
+                })}
               </div>
-            ))}
+            </div>
+            
+            <div className="accessory-section">
+              <h5>악세사리</h5>
+              <div className="equipment-grid">
+                {[
+                  '목걸이', '귀걸이', '귀걸이2', '반지', '반지2', '팔찌', '어빌리티 스톤'
+                ].map(slotName => {
+                  if (!newData.display.equipment[slotName]) return null;
+                  const item = newData.display.equipment[slotName];
+                  return (
+                    <div 
+                      key={slotName} 
+                      className={`equipment-item ${item.Grade ? item.Grade.toLowerCase() : ''}`}
+                    >
+                      <div className="equipment-header">
+                        <div className="slot-name">{slotName}</div>
+                        <div className="item-name">{item.Name}</div>
+                      </div>
+                      <div className="equipment-details">
+                        {item.Icon && (
+                          <div className="item-icon">
+                            <img src={item.IconUrl || getIconUrl(item.Icon)} alt={item.Name} />
+                          </div>
+                        )}
+                        {item.Grade && <div>등급: {item.Grade}</div>}
+                        {item.품질 && <div>품질: {item.품질}</div>}
+                        {/* 악세사리 연마 효과 */}
+                        {item['연마 효과'] && Array.isArray(item['연마 효과']) && (
+                          <div className="polish-effects">
+                            <div className="effect-title">연마 효과:</div>
+                            {item['연마 효과'].map((effect, idx) => (
+                              <div key={idx} className="polish-effect">
+                                {effect[0]}: {effect[1]}{effect[2]}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {/* 팔찌 기본 옵션 */}
+                        {item['기본옵'] && Array.isArray(item['기본옵']) && (
+                          <div className="base-options">
+                            <div className="effect-title">기본 옵션:</div>
+                            {item['기본옵'].map((opt, idx) => (
+                              <div key={idx} className="base-option">
+                                {opt[0]}: +{opt[1]}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        {/* 팔찌 특수 옵션 */}
+                        {item['특옵'] && Array.isArray(item['특옵']) && (
+                          <div className="special-options">
+                            <div className="effect-title">특수 옵션:</div>
+                            {item['특옵'].map((opt, idx) => (
+                              <div key={idx} className="special-option">
+                                {opt[0]}{opt.length > 1 ? ` Lv.${opt[1]}` : ''}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
       </div>
@@ -270,6 +274,50 @@ const DataDetail = ({ data, comparison = null }) => {
         )}
       </div>
 
+      {newData.display && newData.display.arkp && (
+        <div className="data-arkp">
+          <h4>아크 노드 정보</h4>
+          <div className="arkp-section">
+            {newData.display.arkp.points && Object.entries(newData.display.arkp.points).map(([nodeType, points]) => (
+              <div key={nodeType} className="arkp-points">
+                <div className="node-type">{nodeType}</div>
+                <div className="node-points">{points} 포인트</div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="arkp-nodes-container">
+            {newData.display.arkp.nodes && Object.entries(newData.display.arkp.nodes).map(([nodeType, tiers]) => (
+              <div key={nodeType} className="arkp-nodes">
+                <h5>{nodeType} 노드</h5>
+                <div className="tiers-container">
+                  {Object.entries(tiers).map(([tier, nodes]) => (
+                    <div key={tier} className="tier-group">
+                      <div className="tier-name">{tier}</div>
+                      <div className="nodes-list">
+                        {nodes.map((node, index) => (
+                          <div key={index} className="node-item">
+                            {node[2] && (
+                              <div className="node-icon">
+                                <img src={node[3] || getIconUrl(node[2])} alt={node[0]} />
+                              </div>
+                            )}
+                            <div className="node-info">
+                              <div className="node-name">{node[0]}</div>
+                              <div className="node-level">Lv.{node[1]}</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="data-engravings">
         <h4>각인 정보</h4>
         {newData.display && newData.display.engr && (
@@ -278,8 +326,8 @@ const DataDetail = ({ data, comparison = null }) => {
               <div key={index} className="engraving-item">
                 <div className="engraving-name">{engr[0]}</div>
                 <div className="engraving-level">
-                  {engr[1][0] > 0 && `장착 ${engr[1][0]}`}
-                  {engr[1][1] > 0 && ` 악세 ${engr[1][1]}`}
+                  {engr[1][0] > 0 && `각인 ${engr[1][0]}`}
+                  {engr[1][1] > 0 && ` Lv.${engr[1][1]}`}
                 </div>
               </div>
             ))}

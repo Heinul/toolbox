@@ -23,7 +23,9 @@ export const getIconUrl = (iconPath) => {
   let formattedPath = iconPath;
   
   // 경로 시작 부분 처리
-  if (iconPath.startsWith('efuigl_item/')) {
+  if (iconPath.startsWith('efuign_f_item/')) {
+    formattedPath = iconPath.replace('efuign_f_item/', 'gn_f_item/');
+  } else if (iconPath.startsWith('efuigl_item/')) {
     formattedPath = iconPath.replace('efuigl_item/', 'gl_item/');
   } else if (iconPath.startsWith('efuisru_item/')) {
     formattedPath = iconPath.replace('efuisru_item/', 'sru_item/');
