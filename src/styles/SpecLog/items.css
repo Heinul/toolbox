@@ -1,4 +1,4 @@
-/* 보석, 각인, 카드 관련 스타일 */
+
 
 /* 보석 스타일 */
 .gems-skills-container {
@@ -149,5 +149,41 @@
   opacity: 0.6;
   background-color: rgba(239, 68, 68, 0.05);
 }
+/* 카드 스타일 */
+.cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-/* 기타 카드 스타일 유지 */
+.card-item {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  transition: all 0.2s ease;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* 추가 */
+}
+
+.card-name {
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-level {
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #f3f4f6;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
