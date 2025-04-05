@@ -23,6 +23,9 @@
   padding: 8px 12px;
   border-bottom: 1px solid #e0e0e0;
   font-size: 0.9rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .skill-gems {
@@ -115,14 +118,36 @@
   color: #ef4444;
 }
 
-.removed-item {
-  background-color: rgba(231, 76, 60, 0.05);
-  border: 1px dashed rgba(231, 76, 60, 0.3);
+/* 새로운 태그 및 스타일 */
+.new-tag {
+  background-color: #10b981;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-left: 5px;
+  font-size: 0.7rem;
 }
 
-.removed-item .change-value {
-  color: #e74c3c;
-  font-style: italic;
+.removed-tag {
+  background-color: #ef4444;
+  color: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin-left: 5px;
+  font-size: 0.7rem;
 }
 
-/* 기타 카드 스타일 등은 그대로 유지 */
+.new-skill-group,
+.new-gem,
+.new-engraving {
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+}
+
+.removed-skill-group,
+.removed-gem,
+.removed-engraving {
+  opacity: 0.6;
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* 기타 카드 스타일 유지 */
