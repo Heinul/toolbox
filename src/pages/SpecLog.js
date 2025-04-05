@@ -5,9 +5,11 @@ import { Link } from 'react-router-dom';
 import ScoreGraph from '../components/SpecLog/ScoreGraph';
 import DateSelector from '../components/SpecLog/DateSelector';
 import DataDetail from '../components/SpecLog/DataDetail';
+import OptionsNavigator from '../components/SpecLog/OptionsNavigator';
 
 // 유틸리티 함수 임포트
 import { searchCharacterData, calculateScoreChanges } from '../utils/firebaseUtils';
+import { loadOptions, saveOptions, DEFAULT_OPTIONS } from '../utils/optionsUtils';
 
 // 스타일 임포트
 import '../styles/SpecLog.css';
@@ -21,9 +23,29 @@ const SpecLog = () => {
   const [processedData, setProcessedData] = useState([]);
   const [selectedDates, setSelectedDates] = useState([]);
   const [minimized, setMinimized] = useState(false);
+  const [options, setOptions] = useState(DEFAULT_OPTIONS);
   
   // Ref 생성
   const containerRef = useRef(null);
+
+  // 옵션 로드
+  useEffect(() => {
+    const savedOptions = loadOptions();
+    setOptions(savedOptions);
+  }, []);
+
+  // 옵션 변경 핸들러
+  const handleOptionChange = (category, option, value) => {
+    const updatedOptions = {
+      ...options,
+      [category]: {
+        ...options[category],
+        [option]: value
+      }
+    };
+    setOptions(updatedOptions);
+    saveOptions(updatedOptions);
+  };
 
   // 검색어 변경 핸들러
   const handleSearchChange = (e) => {
@@ -138,6 +160,11 @@ const SpecLog = () => {
     <div className="spec-log-container" ref={containerRef}>
       <h2>스펙 로그</h2>
       
+      <OptionsNavigator 
+        options={options} 
+        onOptionChange={handleOptionChange} 
+      />
+      
       <div className="search-section">
         <form onSubmit={handleSearch} className="search-form">
           <input
@@ -194,9 +221,10 @@ const SpecLog = () => {
                 {selectedItems.map((item, index) => (
                   <div key={item.id} className="selected-data-item">
                     <DataDetail 
-                      data={item}
-                      comparison={selectedItems.length > 1 && index === 0 ? selectedItems[1] : null}
-                    />
+                    data={item}
+                    comparison={selectedItems.length > 1 && index === 0 ? selectedItems[1] : null}
+                      options={options}
+                  />
                   </div>
                 ))}
               </div>
