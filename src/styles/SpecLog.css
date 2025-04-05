@@ -1,67 +1,605 @@
+/* SpecLog 페이지 스타일 */
+
 .spec-log-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  font-family: 'Noto Sans KR', sans-serif;
 }
 
-.search-section {
-  margin: 30px 0;
+.spec-log-container h2 {
   text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+}
+
+/* 검색 섹션 */
+.search-section {
+  margin-bottom: 30px;
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
 .search-input {
-  padding: 12px 15px;
-  font-size: 16px;
-  border: 2px solid #ddd;
-  border-radius: 5px;
-  width: 70%;
-  max-width: 500px;
-}
-
-.search-input:focus {
-  border-color: #4CAF50;
-  outline: none;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  max-width: 400px;
 }
 
 .search-button {
-  background-color: #4CAF50;
-  border: none;
+  padding: 10px 20px;
+  background-color: #4a6da7;
   color: white;
-  padding: 12px 20px;
-  margin-left: 10px;
-  font-size: 16px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 5px;
+  font-size: 1rem;
   transition: background-color 0.3s;
 }
 
 .search-button:hover {
-  background-color: #45a049;
+  background-color: #3a5a8f;
 }
 
-/* 버튼 컨테이너 */
-.button-container {
+.search-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* 에러 메시지 */
+.error-message {
+  color: #e74c3c;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #e74c3c;
+  border-radius: 4px;
+  background-color: #fadbd8;
+}
+
+/* 결과 컨테이너 */
+.results-container {
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+.results-container.minimized .graph-section {
+  max-height: 150px;
+  overflow: hidden;
+}
+
+/* 그래프 섹션 */
+.graph-section {
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: max-height 0.3s ease;
+}
+
+.score-graph-container {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+/* 그래프 툴팁 스타일 */
+.score-tooltip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.score-tooltip .date {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* 날짜 선택기 섹션 */
+.date-selector-section {
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background-color: #fff;
+  padding: 10px 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.date-selector-container {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+  transition: all 0.3s ease;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.date-selector-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.date-selector-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.date-selector-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.date-selector-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.date-selector-container.minimized {
+  padding: 5px 0;
+}
+
+.date-items-wrapper {
+  display: flex;
+  gap: 10px;
+  min-width: 100%;
+}
+
+.date-item {
+  flex: 0 0 auto;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.date-selector-container.minimized .date-item {
+  padding: 5px 10px;
+  min-width: 80px;
+}
+
+.date-item:hover {
+  background-color: #e9ecef;
+}
+
+.date-item.selected {
+  border-color: #4a6da7;
+  background-color: #e7eef9;
+}
+
+.date-item.fixed {
+  border-width: 2px;
+  box-shadow: 0 0 0 2px rgba(74, 109, 167, 0.3);
+}
+
+.date-content {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.date-time {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.date-score {
+  font-size: 0.8rem;
+}
+
+.score-change {
+  margin-left: 5px;
+  font-weight: bold;
+}
+
+.score-change.positive {
+  color: #2ecc71;
+}
+
+.score-change.negative {
+  color: #e74c3c;
+}
+
+/* 데이터 세부 정보 섹션 */
+.data-details-section {
   margin-top: 30px;
+}
+
+.no-selection-message {
+  text-align: center;
+  color: #6c757d;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px dashed #ced4da;
+}
+
+.selected-data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.selected-data-item {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+/* 데이터 세부 정보 스타일 */
+.data-detail-container {
+  width: 100%;
+}
+
+.data-header {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 10px;
+}
+
+.data-header h3 {
+  font-size: 1.4rem;
+  margin-bottom: 5px;
+}
+
+.data-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.summary-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.item-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #495057;
+}
+
+.data-details h4,
+.data-equipment h4,
+.data-gems h4,
+.data-engravings h4,
+.data-cards h4,
+.data-arkp h4 {
+  margin: 20px 0 10px;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 5px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.detail-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.equipment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.equipment-item {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.equipment-header {
+  padding: 8px 10px;
+  background-color: #f1f3f5;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.slot-name {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.item-name {
+  font-size: 0.85rem;
+  color: #495057;
+}
+
+.equipment-details {
+  padding: 10px;
+  font-size: 0.85rem;
+}
+
+.effect-title {
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 3px;
+}
+
+.polish-effects,
+.base-options,
+.special-options,
+.elixir-levels {
+  margin-top: 8px;
+  padding-top: 5px;
+  border-top: 1px dashed #e9ecef;
+}
+
+.polish-effect,
+.base-option,
+.special-option,
+.elixir-level {
+  padding-left: 5px;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+}
+
+.item-icon {
+  margin-bottom: 10px;
   text-align: center;
 }
 
-/* 반응형 조정 */
-@media (max-width: 600px) {
-  .search-section form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+.item-icon img {
+  width: 48px;
+  height: 48px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.gem-icon {
+  margin-right: 8px;
+}
+
+.gem-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.gems-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.gem-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.gem-level {
+  font-weight: bold;
+  min-width: 30px;
+}
+
+.gem-info {
+  font-size: 0.85rem;
+}
+
+.engravings-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.engraving-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.engraving-name {
+  font-weight: bold;
+}
+
+.engraving-level {
+  font-size: 0.85rem;
+  color: #495057;
+}
+
+.cards-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.card-item {
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-name {
+  font-weight: bold;
+}
+
+.change-value {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.change-value.positive {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: #27ae60;
+}
+
+.change-value.negative {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #c0392b;
+}
+
+/* 아크 패시브 노드 스타일 */
+.data-arkp {
+  margin-top: 20px;
+}
+
+.arkp-section {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.arkp-points {
+  padding: 8px 15px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.node-type {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.arkp-nodes {
+  margin-bottom: 20px;
+}
+
+.arkp-nodes h5 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e9ecef;
+  padding-bottom: 5px;
+}
+
+.tiers-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.tier-group {
+  margin-bottom: 10px;
+}
+
+.tier-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  background-color: #f1f3f5;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.nodes-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 5px;
+}
+
+.node-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  gap: 10px;
+}
+
+.node-icon img {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.node-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.node-name {
+  font-size: 0.9rem;
+}
+
+.node-level {
+  font-size: 0.8rem;
+  color: #495057;
+}
+
+/* 하단 버튼 컨테이너 */
+.button-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #4a6da7;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #3a5a8f;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .summary-item,
+  .equipment-grid,
+  .gems-grid,
+  .engravings-list,
+  .cards-list,
+  .nodes-list {
+    grid-template-columns: 1fr;
   }
   
-  .search-input {
-    width: 100%;
+  .date-item {
+    min-width: 100px;
   }
   
-  .search-button {
-    margin-left: 0;
-    width: 100%;
-    max-width: 200px;
+  .date-selector-container.minimized .date-item {
+    min-width: 70px;
   }
 }
