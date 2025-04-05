@@ -6,7 +6,6 @@ import SummarySection from './detail/SummarySection';
 import ScoreDetailSection from './detail/ScoreDetailSection';
 import EquipmentSection from './detail/EquipmentSection';
 import AccessorySection from './detail/AccessorySection';
-import AbilityStoneSection from './detail/AbilityStoneSection';
 import GemsSection from './detail/GemsSection';
 import ArkNodesSection from './detail/ArkNodesSection';
 import EngravingsSection from './detail/EngravingsSection';
@@ -101,13 +100,6 @@ const DataDetail = ({ data, comparison = null, options = {} }) => {
             />
             
             <AccessorySection 
-              newData={newData} 
-              oldData={oldData} 
-              hasComparison={hasComparison} 
-              options={mergedOptions} 
-            />
-            
-            <AbilityStoneSection 
               newData={newData} 
               oldData={oldData} 
               hasComparison={hasComparison} 

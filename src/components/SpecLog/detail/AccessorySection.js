@@ -6,17 +6,21 @@ const AccessorySection = ({ newData, oldData, hasComparison, options }) => {
   if (!newData || !newData.display || !newData.display.equipment || !options || !options.accessory) {
     return null;
   }
+
+  // 기본 악세사리 슬롯 + 어빌리티 스톤
+  const accessorySlots = [
+    '목걸이', '귀걸이', '귀걸이2', '반지', '반지2', '팔찌', 
+    ...(options.abilityStone && options.abilityStone.show ? ['어빌리티 스톤'] : [])
+  ];
+
   return (
     <div className="accessory-section">
       <h5>악세사리</h5>
       <div className="equipment-grid">
-        {[
-          '목걸이', '귀걸이', '귀걸이2', '반지', '반지2', '팔찌'
-        ].map(slotName => {
+        {accessorySlots.map(slotName => {
           if (!newData.display.equipment[slotName]) return null;
           const item = newData.display.equipment[slotName];
           
-          // 까리하지 말라고 newData의 아이템만 사용
           const oldItem = hasComparison && oldData.display && oldData.display.equipment && oldData.display.equipment[slotName];
           const hasChanged = oldItem && (
             oldItem.Name !== item.Name ||
@@ -54,7 +58,7 @@ const AccessorySection = ({ newData, oldData, hasComparison, options }) => {
                     )}
                   </div>
                 )}
-                {/* 악세사리 연마 효과 */}
+                {/* 연마 효과 */}
                 {item['연마 효과'] && Array.isArray(item['연마 효과']) && (
                   <div className="polish-effects">
                     <div className="effect-title">연마 효과:</div>
@@ -65,7 +69,7 @@ const AccessorySection = ({ newData, oldData, hasComparison, options }) => {
                     ))}
                   </div>
                 )}
-                {/* 팔찌 기본 옵션 */}
+                {/* 기본 옵션 */}
                 {item['기본옵'] && Array.isArray(item['기본옵']) && (
                   <div className="base-options">
                     <div className="effect-title">기본 옵션:</div>
@@ -76,7 +80,7 @@ const AccessorySection = ({ newData, oldData, hasComparison, options }) => {
                     ))}
                   </div>
                 )}
-                {/* 팔찌 특수 옵션 */}
+                {/* 특수 옵션 */}
                 {item['특옵'] && Array.isArray(item['특옵']) && (
                   <div className="special-options">
                     <div className="effect-title">특수 옵션:</div>
