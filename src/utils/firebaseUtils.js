@@ -1,7 +1,5 @@
 import { ref, get, query, orderByChild, equalTo } from 'firebase/database';
 import { database } from '../firebase/config';
-// 모킹 데이터는 임시로 참조만 함
-import { mockCharacterData } from './mockData';
 import { processEquipmentIcons, processGemIcons, processArkNodes } from './imageUtils';
 
 /**
@@ -13,77 +11,75 @@ export const searchCharacterData = async (characterName) => {
   try {
     console.log(`캐릭터 '${characterName}' 데이터를 Firebase에서 검색합니다.`);
     
+    // 정규화된 검색어 (공백 제거, 소문자로 변환)
+    const normalizedSearchTerm = characterName.trim().toLowerCase();
+    
     // 서버 목록 (모든 서버에서 검색)
     const servers = ['카제로스', '아브렐슈드', '카단', '니나브', '실리안', '아만'];
     let results = [];
     
+    // 루프 전에 출력용 디버그 메시지
+    console.log(`검색어(${normalizedSearchTerm})로 모든 서버에서 일치하는 캐릭터를 찾습니다`);
+
     // 모든 서버에서 검색 시도
     for (const server of servers) {
       try {
-        // 서버 경로로 먼저 접근
-        const serverPath = `characters/${server}`;
-        const serverRef = ref(database, serverPath);
-        const serverSnapshot = await get(serverRef);
-        
-        // 해당 서버에 캐릭터가 있는지 대소문자 무관하게 확인
-        if (serverSnapshot.exists()) {
-          const serverData = serverSnapshot.val();
-          const characterKeys = Object.keys(serverData);
-          
-          // 대소문자 무관하게 매칭되는 캐릭터 이름 찾기
-          const matchingCharName = characterKeys.find(
-            name => name.toLowerCase() === characterName.toLowerCase()
-          );
-          
-          if (matchingCharName) {
-            // 찾은 정확한 캐릭터 이름으로 데이터 가져오기
-            const characterPath = `characters/${server}/${matchingCharName}`;
-            const characterRef = ref(database, characterPath);
-            const snapshot = await get(characterRef);
-        
-            if (snapshot.exists()) {
-              console.log(`${server} 서버에서 캐릭터 발견!`);
-              const data = snapshot.val();
-              
-              // 데이터가 객체이고 여러 날짜가 있는 경우
-              if (typeof data === 'object' && !Array.isArray(data)) {
-                // 각 날짜의 데이터를 개별 데이터로 추가
-                Object.entries(data).forEach(([dateKey, dateData]) => {
-                  if (typeof dateData === 'object') {
-                    results.push({
-                      id: dateKey,
-                      server: server,
-                      charname: matchingCharName, // 정확한 캐릭터 이름 사용
-                      ...dateData
-                    });
-                  }
-                });
-              } else {
-                // 단일 데이터인 경우
-                results.push({
-                  id: `${server}_${matchingCharName}`,
-                  server: server,
-                  charname: matchingCharName, // 정확한 캐릭터 이름 사용
-                  ...data
-                });
+        // 서버 경로 접근
+        const charactersPath = `characters/${server}`;
+        const charactersRef = ref(database, charactersPath);
+        const charactersSnapshot = await get(charactersRef);
+
+        if (!charactersSnapshot.exists()) {
+          console.log(`${server} 서버에 데이터가 없습니다.`);
+          continue;
+        }
+
+        const charactersData = charactersSnapshot.val();
+
+        // 모든 캐릭터 이름 검색
+        for (const characterKey in charactersData) {
+          // 대소문자 구분 없이 비교
+          if (characterKey.toLowerCase() === normalizedSearchTerm) {
+            console.log(`${server} 서버에서 ${characterKey} 캐릭터 발견!`);
+            
+            // 캐릭터 데이터 참조
+            const characterData = charactersData[characterKey];
+            
+            // 데이터가 객체인지 확인(여러 날짜가 있는 경우)
+            if (typeof characterData === 'object' && !Array.isArray(characterData)) {
+              // 각 날짜간 데이터 추출
+              for (const dateKey in characterData) {
+                const dateData = characterData[dateKey];
+                
+                if (typeof dateData === 'object') {
+                  results.push({
+                    id: dateKey,
+                    server: server,
+                    charname: characterKey, // 원래 대소문자를 유지한 캐릭터명 사용
+                    ...dateData
+                  });
+                }
               }
+            } else {
+              // 단일 데이터인 경우
+              results.push({
+                id: `${server}_${characterKey}`,
+                server: server,
+                charname: characterKey,
+                ...characterData
+              });
             }
           }
         }
       } catch (err) {
-        console.log(`${server} 서버 검색 중 오류:`, err);
-        // 특정 서버 검색 오류는 건너뛰고 다음 서버 검색
+        console.error(`${server} 서버 검색 중 오류:`, err);
       }
     }
     
-    // 결과가 없으면 모킹 데이터 사용
     if (results.length === 0) {
-      console.warn(`Firebase에서 데이터를 찾지 못했습니다. 모킹 데이터를 사용합니다.`);
-      // 모킹 데이터 필터링
-      const filteredData = mockCharacterData.filter(
-        item => item.charname.toLowerCase() === characterName.toLowerCase()
-      );
-      results = filteredData;
+      console.warn(`Firebase에서 '${characterName}' 데이터를 찾지 못했습니다.`);
+    } else {
+      console.log(`'${characterName}' 검색 결과 ${results.length}개의 데이터를 찾았습니다.`);
     }
     
     // 관측 시간 기준으로 과거부터 최신 순으로 정렬
