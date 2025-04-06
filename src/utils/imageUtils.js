@@ -13,47 +13,44 @@ export const getIconUrl = (iconPath) => {
   
   // 특수 접두사 처리 (콜론으로 시작하는 경로)
   if (iconPath.startsWith(':')) {
+    // 콜론 제거
     iconPath = iconPath.substring(1);
   }
   
   // CDN 기본 URL
   const cdnBaseUrl = 'https://cdn-lostark.game.onstove.com/efui_iconatlas/';
   
-  // 경로 구성 요소 분석 (예: "efuigl_item/gl_item_01_225.png" -> "gl_item/gl_item_01_225.png")
-  let formattedPath = iconPath;
+  // 아이템 (장비) 패턴: efui[XX]_item/[XX]_item_...
+  // 예: efuidh_item/dh_item_01_250.png
+  const itemPattern = /efui([a-z_]+)_item\/([a-z_]+)_item(.*)/;
+  const itemMatch = iconPath.match(itemPattern);
   
-  // 경로 시작 부분 처리
-  if (iconPath.startsWith('efuign_f_item/')) {
-    formattedPath = iconPath.replace('efuign_f_item/', 'gn_f_item/');
-  } else if (iconPath.startsWith('efuigl_item/')) {
-    formattedPath = iconPath.replace('efuigl_item/', 'gl_item/');
-  } else if (iconPath.startsWith('efuisru_item/')) {
-    formattedPath = iconPath.replace('efuisru_item/', 'sru_item/');
-  } else if (iconPath.startsWith('efuimsm_item/')) {
-    formattedPath = iconPath.replace('efuimsm_item/', 'msm_item/');
-  } else if (iconPath.startsWith('efuiacc/')) {
-    formattedPath = iconPath.replace('efuiacc/', 'acc/');
-  } else if (iconPath.startsWith('efuiuse/')) {
-    formattedPath = iconPath.replace('efuiuse/', 'use/');
-  } else if (iconPath.startsWith('efuiability/')) {
-    formattedPath = iconPath.replace('efuiability/', 'ability/');
-  } else if (iconPath.startsWith('efuiark_passive_evolution/')) {
-    formattedPath = iconPath.replace('efuiark_passive_evolution/', 'ark_passive_evolution/');
-  } else if (iconPath.startsWith('efuiark_passive_01/')) {
-    formattedPath = iconPath.replace('efuiark_passive_01/', 'ark_passive_01/');
-  } else if (iconPath.startsWith('efuiark_passive_02/')) {
-    formattedPath = iconPath.replace('efuiark_passive_02/', 'ark_passive_02/');
-  } else if (iconPath.startsWith('efuiark_passive_')) {
-    // 기타 진화, 깨달음, 도약 노드 (efuiark_passive_dr 등)
-    const regex = /efuiark_passive_([^/]+)\/(.*)/;
-    const match = iconPath.match(regex);
-    if (match) {
-      formattedPath = `ark_passive_${match[1]}/${match[2]}`;
-    }
+  if (itemMatch) {
+    const prefix = itemMatch[2]; // 'dh', 'gl', 'sm' 등
+    return `${cdnBaseUrl}${prefix}_item/${prefix}_item${itemMatch[3]}`;
   }
   
-  // 최종 URL 반환
-  return `${cdnBaseUrl}${formattedPath}`;
+  // 아크 패시브 패턴: efuiark_passive_[XX]/...
+  const arkPattern = /efuiark_passive_([^/]+)\/(.*)/;
+  const arkMatch = iconPath.match(arkPattern);
+  
+  if (arkMatch) {
+    const type = arkMatch[1]; // '01', '02', 'evolution', 'dr' 등
+    return `${cdnBaseUrl}ark_passive_${type}/${arkMatch[2]}`;
+  }
+  
+  // 일반적인 패턴: efui[category]/...
+  const generalPattern = /efui([a-z_]+)\/(.*)/;
+  const generalMatch = iconPath.match(generalPattern);
+  
+  if (generalMatch) {
+    const category = generalMatch[1]; // 'ability', 'acc', 'use' 등
+    return `${cdnBaseUrl}${category}/${generalMatch[2]}`;
+  }
+  
+  // 패턴 매칭에 실패한 경우 원본 경로 사용
+  console.warn(`패턴 매칭 실패: ${iconPath}`);
+  return `${cdnBaseUrl}${iconPath}`;
 };
 
 /**

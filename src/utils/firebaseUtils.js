@@ -16,7 +16,7 @@ export const searchCharacterData = async (characterName) => {
     const normalizedSearchTerm = characterName.trim().toLowerCase();
     
     // 서버 목록 (모든 서버에서 검색)
-    const servers = ['카제로스', '아브렐슈드', '카단', '니나브', '실리안', '아만'];
+    const servers = ['카제로스', '아브렐슈드', '카단', '니나브', '실리안', '아만', '카마인', '루페온' ];
     let results = [];
     
     // 루프 전에 출력용 디버그 메시지
