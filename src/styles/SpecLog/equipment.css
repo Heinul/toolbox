@@ -137,8 +137,8 @@
 
 .changed-marker {
   position: absolute;
-  top: -8px;
-  right: -5px;
+  top: 5px;
+  right: 5px;
   background-color: #eab308;
   color: #fff;
   font-size: 0.7rem;
