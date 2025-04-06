@@ -86,3 +86,13 @@
   color: #2980b9;
   text-decoration: underline;
 }
+
+.image-container {
+  text-align: left;
+  margin: 15px 0;
+}
+
+.usage-image {
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

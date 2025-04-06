@@ -266,6 +266,9 @@ const SpecLog = () => {
               <ul>
                 <li>확장 프로그램을 설치한 후 <a href="https://zloa.net/" target="_blank" rel="noopener noreferrer">ZLOA 사이트</a>에 접속합니다.</li>
                 <li>원하는 캐릭터의 닉네임을 검색합니다.</li>
+                <div className="image-container">
+                  <img src="./images/zloa_usage.png" alt="ZLoa 캐릭터 정보 저장 화면" className="usage-image" style={{width: '100%', maxWidth: '600px', margin: '10px 0 10px 24px', border: '1px solid #ddd'}} />
+                </div>
                 <li>검색 하단에 나타나는 '캐릭터 정보 저장' 버튼을 클릭합니다.</li>
                 <li>데이터가 저장되면 스펙로그에서 해당 캐릭터 정보를 확인할 수 있습니다.</li>
               </ul>
