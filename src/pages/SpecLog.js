@@ -18,6 +18,7 @@ import '../styles/SpecLog.css';
 const SpecLog = () => {
   // 상태 관리
   const [searchTerm, setSearchTerm] = useState('');
+  const [hasSearched, setHasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [characterData, setCharacterData] = useState([]);
@@ -51,6 +52,10 @@ const SpecLog = () => {
   // 검색어 변경 핸들러
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+    // 검색어가 변경되면 새로운 검색으로 간주
+    if (hasSearched) {
+      setHasSearched(false);
+    }
   };
 
   // 검색 실행 핸들러
@@ -61,6 +66,9 @@ const SpecLog = () => {
     
     setIsLoading(true);
     setError(null);
+    // 검색 시도 표시
+    setHasSearched(true);
+    
     try {
       // Firebase에서 캐릭터 데이터 검색
       const data = await searchCharacterData(searchTerm);
@@ -191,7 +199,7 @@ const SpecLog = () => {
         </div>
       )}
       
-      {searchTerm && !isLoading && processedData.length === 0 && !error && (
+      {hasSearched && !isLoading && processedData.length === 0 && !error && (
         <div className="no-results-message">
           <p>'{searchTerm}' 캐릭터에 대한 검색 결과가 없습니다.</p>
           <p>ZLoa History Tracker 확장 프로그램을 통해 먼저 데이터를 수집해야 합니다.</p>
