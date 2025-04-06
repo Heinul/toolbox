@@ -20,36 +20,54 @@ export const searchCharacterData = async (characterName) => {
     // 모든 서버에서 검색 시도
     for (const server of servers) {
       try {
-        // 서버/캐릭터이름 경로로 접근
-        const characterPath = `characters/${server}/${characterName}`;
-        const characterRef = ref(database, characterPath);
-        const snapshot = await get(characterRef);
+        // 서버 경로로 먼저 접근
+        const serverPath = `characters/${server}`;
+        const serverRef = ref(database, serverPath);
+        const serverSnapshot = await get(serverRef);
         
-        if (snapshot.exists()) {
-          console.log(`${server} 서버에서 캐릭터 발견!`);
-          const data = snapshot.val();
+        // 해당 서버에 캐릭터가 있는지 대소문자 무관하게 확인
+        if (serverSnapshot.exists()) {
+          const serverData = serverSnapshot.val();
+          const characterKeys = Object.keys(serverData);
           
-          // 데이터가 객체이고 여러 날짜가 있는 경우
-          if (typeof data === 'object' && !Array.isArray(data)) {
-            // 각 날짜의 데이터를 개별 데이터로 추가
-            Object.entries(data).forEach(([dateKey, dateData]) => {
-              if (typeof dateData === 'object') {
+          // 대소문자 무관하게 매칭되는 캐릭터 이름 찾기
+          const matchingCharName = characterKeys.find(
+            name => name.toLowerCase() === characterName.toLowerCase()
+          );
+          
+          if (matchingCharName) {
+            // 찾은 정확한 캐릭터 이름으로 데이터 가져오기
+            const characterPath = `characters/${server}/${matchingCharName}`;
+            const characterRef = ref(database, characterPath);
+            const snapshot = await get(characterRef);
+        
+            if (snapshot.exists()) {
+              console.log(`${server} 서버에서 캐릭터 발견!`);
+              const data = snapshot.val();
+              
+              // 데이터가 객체이고 여러 날짜가 있는 경우
+              if (typeof data === 'object' && !Array.isArray(data)) {
+                // 각 날짜의 데이터를 개별 데이터로 추가
+                Object.entries(data).forEach(([dateKey, dateData]) => {
+                  if (typeof dateData === 'object') {
+                    results.push({
+                      id: dateKey,
+                      server: server,
+                      charname: matchingCharName, // 정확한 캐릭터 이름 사용
+                      ...dateData
+                    });
+                  }
+                });
+              } else {
+                // 단일 데이터인 경우
                 results.push({
-                  id: dateKey,
+                  id: `${server}_${matchingCharName}`,
                   server: server,
-                  charname: characterName,
-                  ...dateData
+                  charname: matchingCharName, // 정확한 캐릭터 이름 사용
+                  ...data
                 });
               }
-            });
-          } else {
-            // 단일 데이터인 경우
-            results.push({
-              id: `${server}_${characterName}`,
-              server: server,
-              charname: characterName,
-              ...data
-            });
+            }
           }
         }
       } catch (err) {
