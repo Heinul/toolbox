@@ -1,0 +1,88 @@
+/* 사용 방법 안내 섹션 스타일 */
+.usage-guide-section {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.usage-guide-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 16px;
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 8px;
+  text-align: left;
+}
+
+.usage-guide-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.usage-guide-content p {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.usage-guide-content strong {
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.download-section {
+  background-color: #fff;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid #e0e0e0;
+  text-align: left;
+}
+
+.download-section h4 {
+  font-size: 1.25rem;
+  margin-bottom: 12px;
+  color: #2c3e50;
+  text-align: left;
+}
+
+.download-steps h5 {
+  font-size: 1.1rem;
+  margin: 12px 0 8px 0;
+  color: #34495e;
+  text-align: left;
+}
+
+.download-steps ul {
+  padding-left: 24px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.download-steps li {
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+.download-steps code {
+  background-color: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #e74c3c;
+}
+
+.download-steps a, .usage-guide-content a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.download-steps a:hover, .usage-guide-content a:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
