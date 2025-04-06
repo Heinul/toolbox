@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 
 // 페이지 컴포넌트 임포트
@@ -13,7 +13,9 @@ function App() {
     <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
         <header className="App-header">
-          <h1>툴박스</h1>
+          <Link to="/" className="title-link">
+            <h1>툴박스</h1>
+          </Link>
         </header>
         <main>
           <Routes>

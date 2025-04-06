@@ -11,8 +11,19 @@
   color: white;
 }
 
+.title-link {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+.title-link:hover h1 {
+  color: #a0d8ff;
+}
+
 .App-header h1 {
   margin: 0;
+  transition: color 0.3s ease;
 }
 
 main {
