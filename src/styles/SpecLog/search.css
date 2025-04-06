@@ -54,3 +54,25 @@
   transform: none;
   box-shadow: none;
 }
+
+.no-results-message {
+  background-color: #fff;
+  padding: 25px;
+  margin-bottom: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  border-left: 4px solid #f59e0b;
+}
+
+.no-results-message p {
+  margin: 10px 0;
+  font-size: 1rem;
+  color: #4b5563;
+}
+
+.no-results-message p:first-child {
+  font-weight: bold;
+  color: #1f2937;
+  font-size: 1.1rem;
+}

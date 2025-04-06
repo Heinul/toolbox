@@ -191,6 +191,14 @@ const SpecLog = () => {
         </div>
       )}
       
+      {searchTerm && !isLoading && processedData.length === 0 && !error && (
+        <div className="no-results-message">
+          <p>'{searchTerm}' 캐릭터에 대한 검색 결과가 없습니다.</p>
+          <p>ZLoa History Tracker 확장 프로그램을 통해 먼저 데이터를 수집해야 합니다.</p>
+          <p>아래 사용 방법을 참고하세요.</p>
+        </div>
+      )}
+      
       {processedData.length > 0 && (
         <div className={`results-container ${minimized ? 'minimized' : ''}`}>
           <div className="graph-section">
