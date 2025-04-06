@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import logger from '../utils/logUtils';
 
 // 컴포넌트 임포트
 import ScoreGraph from '../components/SpecLog/ScoreGraph';
@@ -77,7 +78,7 @@ const SpecLog = () => {
         setSelectedDates([]);
       }
     } catch (err) {
-      console.error('검색 오류:', err);
+      logger.error('검색 오류:', err);
       setError('데이터를 불러오는 중 오류가 발생했습니다');
     } finally {
       setIsLoading(false);
@@ -233,54 +234,7 @@ const SpecLog = () => {
         </div>
       )}
       
-      <div className="usage-guide-section">
-        <h3 style={{textAlign: 'left'}}>사용 방법 안내</h3>
-        <div className="usage-guide-content">
-          <p>
-            스펙로그는 <strong>ZLoa History Tracker</strong> 크롬 확장프로그램에서 수집한 데이터를 보여주는 서비스입니다.
-          </p>
-          
-          <div className="download-section">
-            <h4 style={{textAlign: 'left'}}>확장 프로그램 설치하기</h4>
-            <div className="download-steps">
-              <h5>1. 파일 다운로드</h5>
-              <ul>
-                <li><a href="https://github.com/Heinul/ZLoaHistoryCollect/releases/download/ZloaSpecLog/ZloaHistoryCollect.zip" target="_blank" rel="noopener noreferrer">다운로드 링크</a>에서 최신 버전의 확장 프로그램 압축 파일을 다운로드합니다.</li>
-                <li>다운로드한 파일의 압축을 해제합니다.</li>
-              </ul>
-              
-              <h5>2. Chrome에 확장 프로그램 로드</h5>
-              <ul>
-                <li>Chrome 브라우저를 엽니다.</li>
-                <li>주소창에 <code>chrome://extensions/</code>를 입력합니다.</li>
-                <li>우측 상단의 "개발자 모드"를 활성화합니다.</li>
-                <li>"압축해제된 확장 프로그램 로드" 버튼을 클릭합니다.</li>
-                <li>다운로드하고 압축 해제한 폴더를 선택합니다.</li>
-              </ul>
-            </div>
-          </div>
-          
-          <div className="download-section">
-            <h4 style={{textAlign: 'left'}}>데이터 수집 방법</h4>
-            <div className="download-steps">
-              <ul>
-                <li>확장 프로그램을 설치한 후 <a href="https://zloa.net/" target="_blank" rel="noopener noreferrer">ZLOA 사이트</a>에 접속합니다.</li>
-                <li>원하는 캐릭터의 닉네임을 검색합니다.</li>
-                <div className="image-container">
-                  <img src="./images/zloa_usage.png" alt="ZLoa 캐릭터 정보 저장 화면" className="usage-image" style={{width: '100%', maxWidth: '600px', margin: '10px 0 10px 24px', border: '1px solid #ddd'}} />
-                </div>
-                <li>검색 하단에 나타나는 '캐릭터 정보 저장' 버튼을 클릭합니다.</li>
-                <li>데이터가 저장되면 스펙로그에서 해당 캐릭터 정보를 확인할 수 있습니다.</li>
-              </ul>
-            </div>
-          </div>
-          
-          <p>
-            더 자세한 정보는 <a href="https://github.com/Heinul/ZLoaHistoryCollect" target="_blank" rel="noopener noreferrer">프로젝트 GitHub 페이지</a>에서 확인하실 수 있습니다.
-          </p>
-        </div>
-      </div>
-      
+
       <div className="button-container">
         <Link to="/" className="btn">
           홈으로 돌아가기

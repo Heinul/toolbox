@@ -1,6 +1,7 @@
 import { ref, get, query, orderByChild, equalTo } from 'firebase/database';
 import { database } from '../firebase/config';
 import { processEquipmentIcons, processGemIcons, processArkNodes } from './imageUtils';
+import logger from './logUtils';
 
 /**
  * 캐릭터 이름으로 Firebase에서 데이터를 검색하는 함수
@@ -9,7 +10,7 @@ import { processEquipmentIcons, processGemIcons, processArkNodes } from './image
  */
 export const searchCharacterData = async (characterName) => {
   try {
-    console.log(`캐릭터 '${characterName}' 데이터를 Firebase에서 검색합니다.`);
+    logger.log(`캐릭터 '${characterName}' 데이터를 Firebase에서 검색합니다.`);
     
     // 정규화된 검색어 (공백 제거, 소문자로 변환)
     const normalizedSearchTerm = characterName.trim().toLowerCase();
@@ -19,7 +20,7 @@ export const searchCharacterData = async (characterName) => {
     let results = [];
     
     // 루프 전에 출력용 디버그 메시지
-    console.log(`검색어(${normalizedSearchTerm})로 모든 서버에서 일치하는 캐릭터를 찾습니다`);
+    logger.log(`검색어(${normalizedSearchTerm})로 모든 서버에서 일치하는 캐릭터를 찾습니다`);
 
     // 모든 서버에서 검색 시도
     for (const server of servers) {
@@ -30,7 +31,7 @@ export const searchCharacterData = async (characterName) => {
         const charactersSnapshot = await get(charactersRef);
 
         if (!charactersSnapshot.exists()) {
-          console.log(`${server} 서버에 데이터가 없습니다.`);
+          logger.log(`${server} 서버에 데이터가 없습니다.`);
           continue;
         }
 
@@ -40,7 +41,7 @@ export const searchCharacterData = async (characterName) => {
         for (const characterKey in charactersData) {
           // 대소문자 구분 없이 비교
           if (characterKey.toLowerCase() === normalizedSearchTerm) {
-            console.log(`${server} 서버에서 ${characterKey} 캐릭터 발견!`);
+            logger.log(`${server} 서버에서 ${characterKey} 캐릭터 발견!`);
             
             // 캐릭터 데이터 참조
             const characterData = charactersData[characterKey];
@@ -72,14 +73,14 @@ export const searchCharacterData = async (characterName) => {
           }
         }
       } catch (err) {
-        console.error(`${server} 서버 검색 중 오류:`, err);
+        logger.error(`${server} 서버 검색 중 오류:`, err);
       }
     }
     
     if (results.length === 0) {
-      console.warn(`Firebase에서 '${characterName}' 데이터를 찾지 못했습니다.`);
+      logger.warn(`Firebase에서 '${characterName}' 데이터를 찾지 못했습니다.`);
     } else {
-      console.log(`'${characterName}' 검색 결과 ${results.length}개의 데이터를 찾았습니다.`);
+      logger.log(`'${characterName}' 검색 결과 ${results.length}개의 데이터를 찾았습니다.`);
     }
     
     // 관측 시간 기준으로 과거부터 최신 순으로 정렬
@@ -109,7 +110,7 @@ export const searchCharacterData = async (characterName) => {
     
     return processedResults;
   } catch (error) {
-    console.error('데이터 검색 오류:', error);
+    logger.error('데이터 검색 오류:', error);
     throw error;
   }
 };
