@@ -157,7 +157,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   margin: 0;
   animation: fadeScale 0.3s ease-out;
-  padding: 8px 0; /* 패딩 수정 - 왼우 패딩 제거 */
+  padding: 8px 0; /* 패딩 수정 - 좌우 패딩 제거 */
 }
 
 /* 애니메이션 정의 */

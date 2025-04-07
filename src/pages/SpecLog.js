@@ -7,6 +7,7 @@ import ScoreGraph from '../components/SpecLog/ScoreGraph';
 import DateSelector from '../components/SpecLog/DateSelector';
 import DataDetail from '../components/SpecLog/DataDetail';
 import OptionsNavigator from '../components/SpecLog/OptionsNavigator';
+import DateRangeFilter from '../components/SpecLog/DateRangeFilter';
 
 // 유틸리티 함수 임포트
 import { searchCharacterData, calculateScoreChanges } from '../utils/firebaseUtils';
@@ -16,7 +17,7 @@ import { loadOptions, saveOptions, DEFAULT_OPTIONS } from '../utils/optionsUtils
 import '../styles/SpecLog.css';
 
 const SpecLog = () => {
-  // 상태 관리
+  // 데이터 상태
   const [searchTerm, setSearchTerm] = useState('');
   const [hasSearched, setHasSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,6 +28,13 @@ const SpecLog = () => {
   const [minimized, setMinimized] = useState(false);
   const [options, setOptions] = useState(DEFAULT_OPTIONS);
   
+  // 날짜 필터링 상태
+  const [dateRange, setDateRange] = useState({ 
+    startDate: null, 
+    endDate: null 
+  });
+  const [filteredData, setFilteredData] = useState([]);
+  
   // Ref 생성
   const containerRef = useRef(null);
 
@@ -35,6 +43,44 @@ const SpecLog = () => {
     const savedOptions = loadOptions();
     setOptions(savedOptions);
   }, []);
+
+  // 데이터 가공 및 업데이트
+  useEffect(() => {
+    // processedData가 변경되면 필터링 적용
+    if (processedData.length > 0) {
+      applyDateFilter();
+    } else {
+      setFilteredData([]);
+    }
+  }, [processedData, dateRange]);
+
+  // 날짜 기반 필터링 함수
+  const applyDateFilter = () => {
+    if (!dateRange.startDate && !dateRange.endDate) {
+      // 필터가 없으면 모든 데이터 표시
+      setFilteredData(processedData);
+      return;
+    }
+    
+    // 날짜 범위로 필터링
+    const filtered = processedData.filter(item => {
+      const itemDate = new Date(item.date);
+      
+      // 시작 날짜 검사
+      if (dateRange.startDate && itemDate < dateRange.startDate) {
+        return false;
+      }
+      
+      // 종료 날짜 검사
+      if (dateRange.endDate && itemDate > dateRange.endDate) {
+        return false;
+      }
+      
+      return true;
+    });
+    
+    setFilteredData(filtered);
+  };
 
   // 옵션 변경 핸들러
   const handleOptionChange = (category, option, value) => {
@@ -85,6 +131,9 @@ const SpecLog = () => {
       } else {
         setSelectedDates([]);
       }
+
+      // 날짜 필터 초기화
+      resetDateFilter();
     } catch (err) {
       logger.error('검색 오류:', err);
       setError('데이터를 불러오는 중 오류가 발생했습니다');
@@ -96,7 +145,7 @@ const SpecLog = () => {
   // 날짜 선택 핸들러
   const handleSelectDate = (id) => {
     // 선택한 날짜 데이터 찾기
-    const selectedDate = processedData.find(item => item.id === id);
+    const selectedDate = filteredData.find(item => item.id === id);
     if (!selectedDate) return;
     
     // 이미 선택된 날짜인지 확인
@@ -155,6 +204,23 @@ const SpecLog = () => {
     };
   }, []);
 
+  // 시작 날짜 변경 핸들러
+  const handleStartDateChange = (e) => {
+    const dateValue = e.target.value ? new Date(e.target.value) : null;
+    setDateRange(prev => ({ ...prev, startDate: dateValue }));
+  };
+  
+  // 종료 날짜 변경 핸들러
+  const handleEndDateChange = (e) => {
+    const dateValue = e.target.value ? new Date(e.target.value) : null;
+    setDateRange(prev => ({ ...prev, endDate: dateValue }));
+  };
+  
+  // 날짜 필터 초기화
+  const resetDateFilter = () => {
+    setDateRange({ startDate: null, endDate: null });
+  };
+
   // 선택된 데이터 항목 찾기
   const getSelectedItems = () => {
     return selectedDates.map(selectedDate => {
@@ -211,16 +277,26 @@ const SpecLog = () => {
         <div className={`results-container ${minimized ? 'minimized' : ''}`}>
           <div className="graph-section">
             <ScoreGraph 
-              data={processedData}
+              data={filteredData} // 필터링된 데이터로 변경
               onSelectDate={handleSelectDate}
               selectedDates={selectedDates}
               minimized={minimized}
             />
           </div>
           
+          {/* 날짜 범위 필터 추가 */}
+          <DateRangeFilter 
+            dateRange={dateRange}
+            onStartDateChange={handleStartDateChange}
+            onEndDateChange={handleEndDateChange}
+            onReset={resetDateFilter}
+            totalCount={processedData.length}
+            filteredCount={filteredData.length}
+          />
+          
           {/* 그래프 아래에 네비게이터 배치 */}
           <DateSelector 
-            data={processedData}
+            data={filteredData} // 필터링된 데이터로 변경
             onSelectDate={handleSelectDate}
             onFixDate={handleFixDate}
             selectedDates={selectedDates}
@@ -256,7 +332,7 @@ const SpecLog = () => {
         </div>
       )}
 
-<div className="usage-guide-section">
+      <div className="usage-guide-section">
         <h3 style={{textAlign: 'left'}}>사용 방법 안내</h3>
         <div className="usage-guide-content">
           <p>
@@ -301,7 +377,6 @@ const SpecLog = () => {
         </div>
       </div>
       
-
       <div className="button-container">
         <Link to="/" className="btn">
           홈으로 돌아가기
