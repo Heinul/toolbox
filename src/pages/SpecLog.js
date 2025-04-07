@@ -218,14 +218,20 @@ const SpecLog = () => {
             />
           </div>
           
+          {/* 그래프 아래에 네비게이터 배치 */}
+          <DateSelector 
+            data={processedData}
+            onSelectDate={handleSelectDate}
+            onFixDate={handleFixDate}
+            selectedDates={selectedDates}
+            minimized={minimized}
+          />
+          
+          {/* 네비게이터가 상단에 고정될 때 공간 확보 */}
+          <div className="nav-space"></div>
+          
           <div className="date-selector-section">
-            <DateSelector 
-              data={processedData}
-              onSelectDate={handleSelectDate}
-              onFixDate={handleFixDate}
-              selectedDates={selectedDates}
-              minimized={minimized}
-            />
+            {/* DateSelector의 스티키 컨테이너만 여기에 유지 */}
           </div>
           
           <div className="data-details-section">
@@ -235,15 +241,15 @@ const SpecLog = () => {
               </div>
             ) : (
               <div className="selected-data-container">
-                {selectedItems.map((item, index) => (
-                  <div key={item.id} className="selected-data-item">
+                {selectedItems.length > 0 && (
+                  <div className="selected-data-item">
                     <DataDetail 
-                    data={item}
-                    comparison={selectedItems.length > 1 && index === 0 ? selectedItems[1] : null}
+                      data={selectedItems[0]}
+                      comparison={selectedItems.length > 1 ? selectedItems[1] : null}
                       options={options}
-                  />
+                    />
                   </div>
-                ))}
+                )}
               </div>
             )}
           </div>

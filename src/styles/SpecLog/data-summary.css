@@ -39,6 +39,61 @@
   width: 100%;
 }
 
+/* 비교 표시자 스타일 */
+.comparison-indicator {
+  margin-top: 5px;
+  padding: 8px 10px;
+  background-color: #f0f7ff;
+  border-radius: 8px;
+  border: 1px solid #cce5ff;
+  margin-bottom: 5px; /* 아래 여백 조정 */
+}
+
+.comparison-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.comparison-label {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.comparison-base {
+  background-color: #28a745;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  margin-right: 5px;
+}
+
+.comparison-target {
+  background-color: #fd7e14;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.date-direction {
+  color: #495057;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.direction-arrow {
+  font-weight: bold;
+}
+
 .data-summary {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));

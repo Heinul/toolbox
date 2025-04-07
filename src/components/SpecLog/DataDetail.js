@@ -17,22 +17,14 @@ const DataDetail = ({ data, comparison = null, options = {} }) => {
   // 비교 데이터 존재 여부 확인
   const hasComparison = comparison !== null;
   
-  // 데이터 비교 정보 가공 - 좌측은 과거, 우측은 최신 데이터
+  // 데이터 할당 - 선택 순서대로 처리 (첫번째 선택 = 기준 데이터, 두번째 선택 = 비교 데이터)
   let oldData = null;
   let newData = null;
   
   if (hasComparison) {
-    // 날짜 기준으로 더 오래된 데이터와 최신 데이터 구분
-    const date1 = new Date(data.observed_at);
-    const date2 = new Date(comparison.observed_at);
-    
-    if (date1 < date2) {
-      oldData = data;
-      newData = comparison;
-    } else {
-      oldData = comparison;
-      newData = data;
-    }
+    // 첫번째 선택된 항목이 기준 데이터, 두번째 선택된 항목이 비교 데이터
+    newData = data;         // 첫번째 선택 = 기준 데이터
+    oldData = comparison;   // 두번째 선택 = 비교 데이터
   } else {
     // 비교 데이터가 없으면 현재 데이터만 사용
     newData = data;
@@ -71,17 +63,22 @@ const DataDetail = ({ data, comparison = null, options = {} }) => {
       <div className="data-header">
         <h3>{newData.charname} ({newData.class})</h3>
         <p>
-          서버: {newData.server} 
-          {hasComparison && (
-            <span className="date-range">
-              | 기간: {formatDate(oldData.observed_at)} ~ {formatDate(newData.observed_at)}
-            </span>
-          )}
+          서버: {newData.server}
           {!hasComparison && (
             <span>| 관측 시간: {formatDate(newData.observed_at)}</span>
           )}
           {newData.build && ` | 빌드: ${newData.build}`}
         </p>
+        
+        {hasComparison && (
+          <div className="comparison-indicator">
+            <div className="comparison-status">
+              <span className="comparison-base">기준 데이터: {formatDate(newData.observed_at)}</span>
+              <span className="comparison-target">비교 데이터: {formatDate(oldData.observed_at)}</span>
+            </div>
+            
+          </div>
+        )}
       </div>
 
       <SummarySection newData={newData} oldData={oldData} hasComparison={hasComparison} />

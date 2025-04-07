@@ -1,4 +1,55 @@
-/* 그래프 및 날짜 선택기 스타일 */
+/* 선택된 항목 스타일 강화 */
+.date-item.selected {
+  border-color: #4a6da7;
+  box-shadow: 0 3px 6px rgba(74, 109, 167, 0.2);
+}
+
+.date-item.selected.base-data {
+  border-left: 4px solid #28a745;
+  background-color: rgba(40, 167, 69, 0.3); /* 기준 데이터 - 초록색 */
+}
+
+.date-item.selected.compare-data {
+  border-left: 4px solid #fd7e14;
+  background-color: rgba(253, 126, 20, 0.3); /* 비교 데이터 - 주황색 */
+}
+
+.date-item.selected.fixed-data {
+  border-left: 4px solid #007bff;
+  background-color: rgba(0, 123, 255, 0.3); /* 고정 데이터 - 파란색 */
+  border-width: 2px;
+}/* 네비게이터 허비 스페이스 - 해당 높이만큼 그래프 아래 스페이스 추가 */
+.nav-space {
+  display: block;
+  height: 60px; /* 네비게이터의 전체 높이(패딩 포함) */
+  content: "";
+}/* 역할에 따른 색상 스타일 - 비교 화면과 동일한 색상 */
+.date-item.base-data {
+  border-left: 4px solid #28a745;
+  background-color: rgba(40, 167, 69, 0.2); /* 기준 데이터 - 초록색 */
+}
+
+.date-item.compare-data {
+  border-left: 4px solid #fd7e14;
+  background-color: rgba(253, 126, 20, 0.2); /* 비교 데이터 - 주황색 */
+}
+
+.date-item.fixed-data {
+  border-left: 4px solid #007bff;
+  background-color: rgba(0, 123, 255, 0.2); /* 고정 데이터 - 파란색 */
+  border-width: 2px;
+}
+
+.date-item:hover {
+  background-color: #f0f4f8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}/* 그래프 및 날짜 선택기 스타일 */
+
+/* 그래프 섹션에 마진 제거 */
+.graph-section {
+  margin-bottom: 0;
+}
 
 /* 결과 컨테이너 */
 .results-container {
@@ -46,29 +97,64 @@
   margin-bottom: 5px;
 }
 
+/* 날짜 선택기 도움말 */
+.date-selector-help {
+  margin: 10px 0;
+  padding: 5px 15px;
+  border-radius: 4px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f8f9fa;
+  border-left: 3px solid #ccc;
+}
+
+.help-text {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
 /* 날짜 선택기 섹션 */
 .date-selector-section {
-  margin-bottom: 20px;
+  height: 0; /* 보이지 않게 설정 */
+  margin-bottom: 0; 
   transition: all 0.3s ease;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  background-color: #fff;
-  padding: 15px 25px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid #e0e4e8;
+  position: static; /* 위치 고정 해제 */
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 데이터 세부 섹션 여백 조정 */
+.data-details-section {
+  margin-top: 10px; /* 위 여백 줄임 */
 }
 
 .date-selector-container {
   display: flex;
+  justify-content: center; /* 중앙 정렬 추가 */
   overflow-x: auto;
   gap: 10px;
-  padding: 10px 0;
   transition: all 0.3s ease;
   scroll-behavior: smooth;
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   margin: 0 auto;
+  padding: 8px 25px 8px 25px;
+  background-color: #fff;
+  box-shadow: none;
+  position: relative; /* 기본은 일반 위치 */
+  z-index: 100;
+  box-sizing: border-box;
+  left: 0;
+  right: 0;
+}
+
+.date-selector-container.is-pinned {
+  position: fixed; /* 고정 위치로 변경 */
+  top: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  margin: 0; /* 중앙 정렬을 위해 마진 제거 */
+  /* left와 width는 JavaScript에서 동적으로 계산 */
 }
 
 .date-selector-container::-webkit-scrollbar {
@@ -96,35 +182,37 @@
 .date-items-wrapper {
   display: flex;
   gap: 10px;
-  min-width: 100%;
+  justify-content: center; /* 네비게이터 항목들도 중앙 정렬 */
+  min-width: auto; /* 100%에서 변경 - 가로 너비 전체 필요 없음 */
+  flex-wrap: wrap; /* 화면이 작을 때 줄바꿈 허용 */
+  width: 100%;
 }
 
 .date-item {
   flex: 0 0 auto;
-  padding: 12px 18px;
+  padding: 8px 12px;
   background-color: #fff;
   border: 1px solid #e0e4e8;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   transition: all 0.2s ease;
-  min-width: 140px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  min-width: 120px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .date-selector-container.minimized .date-item {
-  padding: 8px 12px;
-  min-width: 100px;
+  padding: 6px 10px;
+  min-width: 90px;
 }
 
+/* 호버 효과만 변경 - 기본 선택 배경색은 유지 */
 .date-item:hover {
-  background-color: #f0f4f8;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .date-item.selected {
   border-color: #4a6da7;
-  background-color: #e7eef9;
   box-shadow: 0 3px 6px rgba(74, 109, 167, 0.2);
 }
 
@@ -136,7 +224,7 @@
 .date-content {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 3px;
 }
 
 .date-time {
