@@ -58,18 +58,17 @@ const DateSelector = ({ data, onSelectDate, onFixDate, selectedDates = [], minim
         container.classList.add('is-pinned');
         
         // spec-log-container 범위 계산
-        const containerRect = specLogContainer.getBoundingClientRect();
-        const containerWidth = containerRect.width;
-        container.style.width = `${containerWidth}px`;
+        const specLogRect = specLogContainer.getBoundingClientRect();
         
-        // 중앙 정렬을 위해 left 값 계산
-        container.style.left = `${window.scrollX + containerRect.left}px`;
-        container.style.right = 'auto'; // right 값 제거
+        // 데이트 셀렉터 기본 너비 계산 및 정확한 중앙 정렬
+        container.style.width = `${specLogRect.width}px`;
+        container.style.left = `${specLogRect.left}px`;
+        container.style.maxWidth = 'none'; // 최대 너비 제한 제거
       } else {
         container.classList.remove('is-pinned');
         container.style.width = '';
         container.style.left = '';
-        container.style.right = '';
+        container.style.maxWidth = '';
       }
     };
     

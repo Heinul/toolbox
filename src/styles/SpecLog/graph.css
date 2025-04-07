@@ -131,7 +131,7 @@
 
 .date-selector-container {
   display: flex;
-  justify-content: center; /* 중앙 정렬 추가 */
+  justify-content: center;
   overflow-x: auto;
   gap: 10px;
   transition: all 0.3s ease;
@@ -139,22 +139,37 @@
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   margin: 0 auto;
-  padding: 8px 25px 8px 25px;
+  padding: 8px 25px;
   background-color: #fff;
   box-shadow: none;
-  position: relative; /* 기본은 일반 위치 */
+  position: relative;
   z-index: 100;
   box-sizing: border-box;
-  left: 0;
-  right: 0;
+  transform-origin: top center;
+  opacity: 1;
+  width: 100%;
+  max-width: 1200px;
 }
 
 .date-selector-container.is-pinned {
-  position: fixed; /* 고정 위치로 변경 */
+  position: fixed;
   top: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-  margin: 0; /* 중앙 정렬을 위해 마진 제거 */
-  /* left와 width는 JavaScript에서 동적으로 계산 */
+  margin: 0;
+  animation: fadeScale 0.3s ease-out;
+  padding: 8px 0; /* 패딩 수정 - 왼우 패딩 제거 */
+}
+
+/* 애니메이션 정의 */
+@keyframes fadeScale {
+  from {
+    transform: scaleY(0.8) translateY(-20px);
+    opacity: 0.6;
+  }
+  to {
+    transform: scaleY(1) translateY(0);
+    opacity: 1;
+  }
 }
 
 .date-selector-container::-webkit-scrollbar {
@@ -182,10 +197,9 @@
 .date-items-wrapper {
   display: flex;
   gap: 10px;
-  justify-content: center; /* 네비게이터 항목들도 중앙 정렬 */
-  min-width: auto; /* 100%에서 변경 - 가로 너비 전체 필요 없음 */
-  flex-wrap: wrap; /* 화면이 작을 때 줄바꿈 허용 */
-  width: 100%;
+  justify-content: center;
+  min-width: auto;
+  flex-wrap: wrap;
 }
 
 .date-item {
