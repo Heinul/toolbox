@@ -342,19 +342,9 @@ const SpecLog = () => {
           <div className="download-section">
             <h4 style={{textAlign: 'left'}}>확장 프로그램 설치하기</h4>
             <div className="download-steps">
-              <h5>1. 파일 다운로드</h5>
+              <h5>파일 다운로드</h5>
               <ul>
-                <li><a href="https://github.com/Heinul/ZLoaHistoryCollect/releases/download/ZloaSpecLog/ZloaHistoryCollect.zip" target="_blank" rel="noopener noreferrer">다운로드 링크</a>에서 최신 버전의 확장 프로그램 압축 파일을 다운로드합니다.</li>
-                <li>다운로드한 파일의 압축을 해제합니다.</li>
-              </ul>
-              
-              <h5>2. Chrome에 확장 프로그램 로드</h5>
-              <ul>
-                <li>Chrome 브라우저를 엽니다.</li>
-                <li>주소창에 <code>chrome://extensions/</code>를 입력합니다.</li>
-                <li>우측 상단의 "개발자 모드"를 활성화합니다.</li>
-                <li>"압축해제된 확장 프로그램 로드" 버튼을 클릭합니다.</li>
-                <li>다운로드하고 압축 해제한 폴더를 선택합니다.</li>
+                <li><a href="https://chromewebstore.google.com/detail/zloa-history-tracker/pjpkjihggbjkhpkplkeihkelkmmmhaek?authuser=0&hl=ko" target="_blank" rel="noopener noreferrer">다운로드 링크</a>에서 확장 프로그램을을 다운로드합니다.</li>
               </ul>
             </div>
           </div>
