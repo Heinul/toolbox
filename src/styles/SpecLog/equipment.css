@@ -60,8 +60,6 @@
   color: white;
 }
 
-
-
 .slot-name {
   font-weight: bold;
   font-size: 0.9rem;
@@ -164,4 +162,117 @@
 
 .change-value.negative {
   color: #e74c3c;
+}
+
+/* 엘릭서 관련 스타일 */
+.elixir-level {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+
+.elixir-level.item-changed {
+  background-color: rgba(234, 179, 8, 0.1);
+  border-radius: 3px;
+  padding: 6px;
+}
+
+.elixir-name {
+  font-weight: 500;
+}
+
+.elixir-change {
+  font-size: 0.75rem;
+  margin-top: 3px;
+  padding: 2px 4px;
+  border-radius: 3px;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.elixir-change.positive {
+  color: #27ae60;
+}
+
+.elixir-change.negative {
+  color: #e74c3c;
+}
+
+.elixir-change.neutral {
+  color: #576364;
+}
+
+.elixir-change-note {
+  font-size: 0.8rem;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.elixir-change-note.positive {
+  color: #27ae60;
+}
+
+.elixir-change-note.negative {
+  color: #e74c3c;
+}
+
+.elixir-levels-removed {
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 3px;
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+.elixir-level.negative {
+  color: #e74c3c;
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+/* 툴팁 엘릭서 스타일 */
+.tooltip-elixir {
+  margin-top: 8px;
+}
+
+.tooltip-elixir-list {
+  margin-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltip-elixir-item {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  font-size: 0.85rem;
+}
+
+.tooltip-elixir-item.changed {
+  background-color: rgba(234, 179, 8, 0.1);
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.tooltip-elixir-item.removed {
+  color: #e74c3c;
+  text-decoration: line-through;
+  opacity: 0.8;
+}
+
+.elixir-tooltip-change {
+  font-size: 0.8rem;
+  margin-top: 2px;
+  padding-left: 12px;
+}
+
+.elixir-tooltip-change.positive {
+  color: #27ae60;
+}
+
+.elixir-tooltip-change.negative {
+  color: #e74c3c;
+}
+
+.elixir-tooltip-change.neutral {
+  color: #7f8c8d;
 }

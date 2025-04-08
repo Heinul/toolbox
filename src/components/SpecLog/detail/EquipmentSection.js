@@ -28,6 +28,10 @@ const EquipmentSection = ({ newData, oldData, hasComparison, options }) => {
             JSON.stringify(oldItem['엘릭서 레벨']) !== JSON.stringify(item['엘릭서 레벨'])
           );
           
+          // 엘릭서 변경 여부 확인 함수
+          const elixirChanged = (oldItem && oldItem['엘릭서 레벨'] && item['엘릭서 레벨']) ?
+            JSON.stringify(oldItem['엘릭서 레벨']) !== JSON.stringify(item['엘릭서 레벨']) : false;
+          
           return (
             <div 
               key={slotName} 
@@ -91,11 +95,45 @@ const EquipmentSection = ({ newData, oldData, hasComparison, options }) => {
                 {options.equipment.showElixir && item['엘릭서 레벨'] && Array.isArray(item['엘릭서 레벨']) && (
                   <div className="elixir-levels">
                     <div className="effect-title">엘릭서:</div>
-                    {item['엘릭서 레벨'].map((elixir, idx) => (
-                      <div key={idx} className="elixir-level">
-                        {elixir[0]} Lv.{elixir[1]}
+                    {item['엘릭서 레벨'].map((elixir, idx) => {
+                      // 이전 엘릭서 데이터 확인
+                      const oldElixirExists = hasChanged && oldItem && oldItem['엘릭서 레벨'] && 
+                        Array.isArray(oldItem['엘릭서 레벨']) && idx < oldItem['엘릭서 레벨'].length;
+                      
+                      // 이전 엘릭서 데이터가 있으면 비교
+                      const oldElixir = oldElixirExists ? oldItem['엘릭서 레벨'][idx] : null;
+                      const elixirChanged = oldElixir && (oldElixir[0] !== elixir[0] || oldElixir[1] !== elixir[1]);
+                      
+                      return (
+                        <div key={idx} className={`elixir-level ${elixirChanged ? 'item-changed' : ''}`}>
+                          <div className="elixir-name">{elixir[0]} Lv.{elixir[1]}</div>
+                          {elixirChanged && (
+                            <div className={`elixir-change ${elixir[1] > oldElixir[1] ? 'positive' : elixir[1] < oldElixir[1] ? 'negative' : 'neutral'}`}>
+                              {oldElixir[0]} Lv.{oldElixir[1]} → {elixir[0]} Lv.{elixir[1]}
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                    
+                    {/* 새로 추가된 엘릭서 표시 */}
+                    {hasChanged && oldItem && oldItem['엘릭서 레벨'] && 
+                      item['엘릭서 레벨'].length > oldItem['엘릭서 레벨'].length && (
+                      <div className="elixir-change-note positive">새로운 엘릭서 효과가 추가되었습니다.</div>
+                    )}
+                    
+                    {/* 삭제된 엘릭서 표시 */}
+                    {hasChanged && oldItem && oldItem['엘릭서 레벨'] && 
+                      oldItem['엘릭서 레벨'].length > item['엘릭서 레벨'].length && (
+                      <div className="elixir-levels-removed">
+                        <div className="elixir-change-note negative">제거된 엘릭서:</div>
+                        {oldItem['엘릭서 레벨'].slice(item['엘릭서 레벨'].length).map((oldElixir, idx) => (
+                          <div key={idx} className="elixir-level negative">
+                            {oldElixir[0]} Lv.{oldElixir[1]}
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </div>
                 )}
 
@@ -113,11 +151,28 @@ const EquipmentSection = ({ newData, oldData, hasComparison, options }) => {
                         <div><strong>초월:</strong> {oldItem.초월[0]}단계 {oldItem.초월[1]}등급</div>
                       )}
                       {oldItem['엘릭서 레벨'] && Array.isArray(oldItem['엘릭서 레벨']) && (
-                        <div>
+                        <div className="tooltip-elixir">
                           <strong>엘릭서:</strong>
-                          {oldItem['엘릭서 레벨'].map((elixir, idx) => (
-                            <div key={idx}>{elixir[0]} Lv.{elixir[1]}</div>
-                          ))}
+                          <div className="tooltip-elixir-list">
+                            {oldItem['엘릭서 레벨'].map((elixir, idx) => {
+                              // 현재 아이템에서 동일한 이름의 엘릭서 찾기
+                              const currentElixir = item['엘릭서 레벨'] && Array.isArray(item['엘릭서 레벨']) ?
+                                item['엘릭서 레벨'].find(e => e[0] === elixir[0]) : null;
+                              const elixirChanged = currentElixir && currentElixir[1] !== elixir[1];
+                              const elixirRemoved = !currentElixir;
+                              
+                              return (
+                                <div key={idx} className={`tooltip-elixir-item ${elixirChanged ? 'changed' : ''} ${elixirRemoved ? 'removed' : ''}`}>
+                                  {elixir[0]} Lv.{elixir[1]}
+                                  {elixirChanged && (
+                                    <span className={`elixir-tooltip-change ${currentElixir[1] > elixir[1] ? 'positive' : currentElixir[1] < elixir[1] ? 'negative' : 'neutral'}`}>
+                                      → {currentElixir[0]} Lv.{currentElixir[1]}
+                                    </span>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
                         </div>
                       )}
                     </div>
