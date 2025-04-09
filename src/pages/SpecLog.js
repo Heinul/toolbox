@@ -12,6 +12,7 @@ import DateRangeFilter from '../components/SpecLog/DateRangeFilter';
 // 유틸리티 함수 임포트
 import { searchCharacterData, calculateScoreChanges } from '../utils/firebaseUtils';
 import { loadOptions, saveOptions, DEFAULT_OPTIONS } from '../utils/optionsUtils';
+import { logUserAction } from '../firebase/config';
 
 // 스타일 임포트
 import '../styles/SpecLog.css';
@@ -110,6 +111,9 @@ const SpecLog = () => {
     
     if (!searchTerm.trim()) return;
     
+    // 검색 이벤트 로깅
+    logUserAction('character_search', { searchTerm });
+    
     setIsLoading(true);
     setError(null);
     // 검색 시도 표시
@@ -123,6 +127,13 @@ const SpecLog = () => {
       // 데이터 가공
       const processed = calculateScoreChanges(data);
       setProcessedData(processed);
+      
+      // 데이터 로딩 성공 로깅
+      logUserAction('character_data_loaded', { 
+        characterName: searchTerm, 
+        dataCount: data.length,
+        dataFound: data.length > 0 
+      });
       
       // 선택 데이터 초기화 - 가장 최근 데이터 자동 선택
       if (processed.length > 0) {
@@ -147,6 +158,12 @@ const SpecLog = () => {
     // 선택한 날짜 데이터 찾기
     const selectedDate = filteredData.find(item => item.id === id);
     if (!selectedDate) return;
+    
+    // 날짜 선택 이벤트 로깅
+    // logUserAction('select_date', { 
+    //   dateId: id,
+    //   date: selectedDate.date 
+    // });
     
     // 이미 선택된 날짜인지 확인
     const existingIndex = selectedDates.findIndex(date => date.id === id);

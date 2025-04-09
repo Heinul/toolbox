@@ -1,12 +1,40 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
+import { logPageView } from './firebase/config';
 
 // 페이지 컴포넌트 임포트
 import Home from './pages/Home';
 import Calculator from './pages/Calculator';
 import QualityReader from './pages/QualityReader';
 import SpecLog from './pages/SpecLog';
+
+
+function PageViewTracker() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // 페이지 경로에 따라 적절한 페이지 이름 설정
+    const getPageName = () => {
+      switch(location.pathname) {
+        case '/':
+          return 'Home';
+        case '/calculator':
+          return 'Calculator';
+        case '/quality-reader':
+          return 'QualityReader';
+        case '/spec-log':
+          return 'SpecLog';
+        default:
+          return 'Unknown';
+      }
+    };
+    
+    logPageView(getPageName());
+  }, [location]);
+  
+  return null;
+}
 
 function App() {
   return (
@@ -17,6 +45,7 @@ function App() {
             <h1>툴박스</h1>
           </Link>
         </header>
+        <PageViewTracker />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />

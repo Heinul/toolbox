@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import qualityData from '../data/qualityData';
+import { logUserAction } from '../firebase/config';
 import '../styles/QualityReader.css';
 
 function QualityReader() {
@@ -56,6 +57,8 @@ function QualityReader() {
   // 연마 단계 변경 함수
   const handleHoningChange = (level) => {
     setHoning(level);
+    // 연마 단계 변경 이벤트 로깅
+    // logUserAction('change_honing_level', { level });
   };
 
   // 품질 값에 따른 색상 반환
@@ -125,7 +128,28 @@ function QualityReader() {
           type="number"
           id="quality-input"
           value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+            
+            // 입력값이 있을 때만 로깅 (너무 많은 이벤트 방지)
+            // if (e.target.value && e.target.value.length > 2) {
+            //   logUserAction('quality_value_input', { value: e.target.value });
+            // }
+          }}
+          onBlur={() => {
+            // 입력 완료 시 로깅
+            // if (inputValue) {
+            //   logUserAction('quality_calculation', { 
+            //     value: inputValue,
+            //     honingLevel: honing,
+            //     results: {
+            //       necklace: calculateQuality(inputValue, '목걸이'),
+            //       earring: calculateQuality(inputValue, '귀걸이'),
+            //       ring: calculateQuality(inputValue, '반지')
+            //     }
+            //   });
+            // }
+          }}
           placeholder="품질값을 입력하세요"
           className="quality-input"
         />

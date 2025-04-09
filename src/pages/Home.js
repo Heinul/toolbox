@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { logUserAction } from '../firebase/config';
 
 function Home() {
   const tools = [
@@ -34,7 +35,11 @@ function Home() {
           <div key={tool.id} className="tool-card">
             <h3>{tool.name}</h3>
             <p>{tool.description}</p>
-            <Link to={tool.path} className="btn">
+            <Link 
+              to={tool.path} 
+              className="btn"
+              onClick={() => logUserAction('tool_selected', { toolId: tool.id, toolName: tool.name })}
+            >
               사용하기
             </Link>
           </div>

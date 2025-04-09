@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
+import { getAnalytics, logEvent } from 'firebase/analytics';
 import logger from '../utils/logUtils';
 
 // Firebase 설정 - 프로덕션용 설정은 환경변수로 관리
@@ -20,4 +21,34 @@ logger.log('파이어베이스 초기화:', firebaseConfig.databaseURL);
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
-export { database };
+
+let analytics = null;
+try {
+
+  if (typeof window !== 'undefined') {
+    analytics = getAnalytics(app);
+    logger.log('Firebase Analytics 초기화 완료');
+  }
+} catch (error) {
+  logger.error('Firebase Analytics 초기화 오류:', error);
+}
+
+
+export const logPageView = (pageName) => {
+  if (analytics) {
+    logEvent(analytics, 'page_view', {
+      page_title: pageName,
+      page_location: window.location.href,
+      page_path: window.location.pathname
+    });
+  }
+};
+
+
+export const logUserAction = (actionName, actionParams = {}) => {
+  if (analytics) {
+    logEvent(analytics, actionName, actionParams);
+  }
+};
+
+export { database, analytics };
