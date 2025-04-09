@@ -6,7 +6,7 @@ import '../styles/QualityReader.css';
 function QualityReader() {
   // 상태 관리
   const [inputValue, setInputValue] = useState('');
-  const [honing, setHoning] = useState(3); // 연마 단계 (0-3)
+  const [honing, setHoning] = useState(0); // 연마 단계 (0-3)
   const [results, setResults] = useState({
     목걸이: null,
     귀걸이: null,
