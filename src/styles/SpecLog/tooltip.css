@@ -77,3 +77,26 @@
   color: #2d3748;
   margin-right: 4px;
 }
+
+/* 화살표 및 변경사항 요약 스타일 */
+.arrow {
+  display: inline-block;
+  margin: 0 4px;
+  color: #999;
+  font-weight: bold;
+}
+
+.tooltip-change-summary {
+  margin-top: 8px;
+  padding-top: 5px;
+  border-top: 1px dashed #eee;
+  font-weight: bold;
+}
+
+.tooltip-change-summary.positive {
+  color: #27ae60;
+}
+
+.tooltip-change-summary.negative {
+  color: #e74c3c;
+}

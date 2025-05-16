@@ -38,12 +38,25 @@ const EngravingsSection = ({ newData, oldData, hasComparison }) => {
                 
                 {hasChanged && (
                   <div className={`change-value ${totalNew > totalOld ? 'positive' : 'negative'}`}>
-                    (변경됨: 
-                    {oldEngr[1][0] > 0 ? ` 등급 ${oldEngr[1][0]}` : ''}
-                    {oldEngr[1][1] > 0 ? ` 레벨 ${oldEngr[1][1]}` : ''} →)
+                    (등급 {oldEngr[1][0]} → {engr[1][0]}, 레벨 {oldEngr[1][1]} → {engr[1][1]})
                   </div>
                 )}
               </div>
+              
+              {/* 변경된 경우 툴팁 추가 */}
+              {hasChanged && (
+                <div className="item-tooltip">
+                  <div className="tooltip-title">이전 각인 정보</div>
+                  <div className="tooltip-content">
+                    <div><strong>이름:</strong> {oldEngr[0]}</div>
+                    <div><strong>등급:</strong> {oldEngr[1][0]} <span className="arrow">→</span> {engr[1][0]}</div>
+                    <div><strong>레벨:</strong> {oldEngr[1][1]} <span className="arrow">→</span> {engr[1][1]}</div>
+                    <div className={`tooltip-change-summary ${totalNew > totalOld ? 'positive' : 'negative'}`}>
+                      <strong>변경사항:</strong> {totalNew > totalOld ? '상승' : '하락'} ({totalOld} → {totalNew})
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
