@@ -38,7 +38,8 @@
 .equipment-item {
   border: 1px solid #dee2e6;
   border-radius: 6px;
-  overflow: hidden;
+  overflow: visible;
+  position: relative;
   transition: all 0.2s ease;
   background-color: white;
   box-shadow: 0 2px 4px rgba(0,0,0,0.03);
