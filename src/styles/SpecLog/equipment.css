@@ -18,6 +18,14 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   position: relative;
   overflow: visible;
+  z-index: 1;
+}
+
+/* 호버시 섹션의 z-index를 높여서 툴팁이 다른 섹션 위에 표시되도록 함 */
+.equipment-section.has-hover,
+.accessory-section.has-hover,
+.ability-stone-section.has-hover {
+  z-index: 100;
 }
 
 .equipment-section h5,
@@ -36,7 +44,8 @@
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 12px;
   position: relative;
-  z-index: 0;
+  z-index: 1;
+  padding-bottom: 10px; /* 툴팁을 위한 여유 공간 */
 }
 
 .equipment-item {
@@ -53,7 +62,7 @@
 .equipment-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  z-index: 10;
+  z-index: 1000;
 }
 
 /* 해당 등급에 따른 스타일 */

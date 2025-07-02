@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getIconUrl } from '../../../utils/imageUtils';
 
 const EquipmentSection = ({ newData, oldData, hasComparison, options }) => {
+  const [hoveredItem, setHoveredItem] = useState(null);
+  
   // 유효성 검사
   if (!newData || !newData.display || !newData.display.equipment || !options || !options.equipment) {
     return null;
   }
   return (
-    <div className="equipment-section">
+    <div className={`equipment-section ${hoveredItem ? 'has-hover' : ''}`}>
       <h5>장비</h5>
       <div className="equipment-grid">
         {[
@@ -36,6 +38,8 @@ const EquipmentSection = ({ newData, oldData, hasComparison, options }) => {
             <div 
               key={slotName} 
               className={`equipment-item ${item.Grade ? item.Grade.toLowerCase() : ''} ${hasChanged ? 'item-changed' : ''}`}
+              onMouseEnter={() => setHoveredItem(slotName)}
+              onMouseLeave={() => setHoveredItem(null)}
             >
               <div className="equipment-header">
                 <div className="slot-name">{slotName}</div>
