@@ -7,7 +7,7 @@ import { logPageView } from './firebase/config';
 import Home from './pages/Home';
 import Calculator from './pages/Calculator';
 import QualityReader from './pages/QualityReader';
-import SpecLog from './pages/SpecLog';
+import GemCash from './pages/GemCash';
 
 
 function PageViewTracker() {
@@ -23,8 +23,8 @@ function PageViewTracker() {
           return 'Calculator';
         case '/quality-reader':
           return 'QualityReader';
-        case '/spec-log':
-          return 'SpecLog';
+        case '/gem-cash':
+          return 'GemCash';
         default:
           return 'Unknown';
       }
@@ -51,7 +51,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/calculator" element={<Calculator />} />
             <Route path="/quality-reader" element={<QualityReader />} />
-            <Route path="/spec-log" element={<SpecLog />} />
+            <Route path="/gem-cash" element={<GemCash />} />
           </Routes>
         </main>
         <footer className="App-footer">

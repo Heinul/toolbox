@@ -17,10 +17,10 @@ function Home() {
       path: '/quality-reader'
     },
     {
-      id: 'spec-log',
-      name: '스펙로그',
-      description: '스펙 로그 검색 기능',
-      path: '/spec-log'
+      id: 'gem-cash',
+      name: '보석 현금 효율',
+      description: '보석 현금 구매 vs 골드 직접 구매 비교',
+      path: '/gem-cash'
     }
     // 추후 다른 도구들을 여기에 추가할 수 있습니다
   ];
