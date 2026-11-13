@@ -1,5 +1,4 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
 import { getAnalytics, logEvent } from 'firebase/analytics';
 import logger from '../utils/logUtils';
 
@@ -19,7 +18,6 @@ const firebaseConfig = {
 // Firebase 초기화
 logger.log('파이어베이스 초기화:', firebaseConfig.databaseURL);
 const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
 
 
 let analytics = null;
@@ -51,4 +49,4 @@ export const logUserAction = (actionName, actionParams = {}) => {
   }
 };
 
-export { database, analytics };
+export { analytics };
