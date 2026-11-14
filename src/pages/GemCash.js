@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  BarChart, Bar, Cell, LabelList, XAxis, YAxis, CartesianGrid, Tooltip,
   ReferenceLine, ResponsiveContainer,
 } from 'recharts';
 import { FEE, breakEven, savingRate, directCost } from '../utils/gemMath';
@@ -12,7 +12,6 @@ const API_URL = 'https://developer-lostark.game.onstove.com/auctions/items';
 const GEMS = [8, 9, 10].flatMap(level =>
   ['겁화', '작열'].map(type => ({ id: `${level}${type}`, level, type, name: `${level}레벨 ${type}의 보석` }))
 );
-const LEVEL_COLOR = { 8: '#2e7d32', 9: '#1565c0', 10: '#c62828' };
 const STORE_KEY = 'gemCash';
 
 const load = () => {
@@ -72,18 +71,19 @@ function GemCash() {
   const active = rows.filter(r => r.ok);
   const nNum = Number(n);
 
-  const chartData = (() => {
-    if (!active.length || !(nNum > 0)) return [];
-    const xs = [nNum, ...active.map(r => r.be)];
-    const lo = Math.max(0.5, Math.min(...xs) * 0.6), hi = Math.max(...xs) * 1.4;
-    const step = (hi - lo) / 80;
-    return Array.from({ length: 81 }, (_, i) => {
-      const x = lo + step * i;
-      const pt = { n: Number(x.toFixed(2)) };
-      active.forEach(r => { pt[r.id] = Number((savingRate(r.c, r.p, x) * 100).toFixed(1)); });
-      return pt;
-    });
-  })();
+  // 손익분기 비율이 낮은(=싼) 보석이 위로 오게 정렬
+  const chartData = nNum > 0
+    ? active
+      .map(r => {
+        const rate = savingRate(r.c, r.p, nNum);
+        return {
+          name: r.name.replace('의 보석', ''), be: Number(r.be.toFixed(2)), gain: rate > 0,
+          label: `${r.be.toFixed(2)}  ${Math.abs(rate * 100).toFixed(1)}% ${rate > 0 ? '절약' : '손해'}`,
+        };
+      })
+      .sort((x, y) => x.be - y.be)
+    : [];
+  const xMax = Math.ceil(Math.max(nNum, ...chartData.map(d => d.be)) * 1.35);
 
   const setMap = setter => (id, v) => setter(m => ({ ...m, [id]: v }));
 
@@ -144,25 +144,23 @@ function GemCash() {
 
       {chartData.length > 0 && (
         <div className="gem-chart">
-          <h3>직접 구매 시세별 절약률</h3>
-          <ResponsiveContainer width="100%" height={360}>
-            <LineChart data={chartData} margin={{ top: 10, right: 20, left: 0, bottom: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="n" type="number" domain={['dataMin', 'dataMax']} tickFormatter={v => v.toFixed(1)}
-                label={{ value: '직접 구매 시세 (100골드당 원)', position: 'insideBottom', offset: -10 }} />
-              <YAxis unit="%" domain={[-50, 'auto']} allowDataOverflow />
-              <Tooltip formatter={(v, id) => [`${v}%`, GEMS.find(g => g.id === id)?.name]}
-                labelFormatter={v => `100:${v}`} />
-              <Legend verticalAlign="top" formatter={id => GEMS.find(g => g.id === id)?.name} />
-              <ReferenceLine y={0} stroke="#000" />
-              {nNum > 0 && <ReferenceLine x={nNum} stroke="#888" strokeDasharray="4 4" label="현재 시세" />}
-              {active.map(r => (
-                <Line key={r.id} dataKey={r.id} dot={false} stroke={LEVEL_COLOR[r.level]}
-                  strokeDasharray={r.type === '작열' ? '6 3' : undefined} isAnimationActive={false} />
-              ))}
-            </LineChart>
+          <h3>보석별 100골드당 가격</h3>
+          <ResponsiveContainer width="100%" height={chartData.length * 48 + 60}>
+            <BarChart data={chartData} layout="vertical" margin={{ top: 20, right: 20, left: 10, bottom: 20 }}>
+              <CartesianGrid strokeDasharray="3 3" horizontal={false} />
+              <XAxis type="number" domain={[0, xMax]} tickFormatter={v => v.toFixed(1)}
+                label={{ value: '100골드당 원', position: 'insideBottom', offset: -10 }} />
+              <YAxis type="category" dataKey="name" width={90} />
+              <Tooltip formatter={v => [`100:${v}`, '보석 경로']} />
+              <Bar dataKey="be" barSize={26} isAnimationActive={false}>
+                {chartData.map(d => <Cell key={d.name} fill={d.gain ? '#43a047' : '#e53935'} />)}
+                <LabelList dataKey="label" position="right" fontSize={13} />
+              </Bar>
+              <ReferenceLine x={nNum} stroke="#000" strokeWidth={2}
+                label={{ value: `직접 구매 ${nNum}`, position: 'top', fontSize: 13 }} />
+            </BarChart>
           </ResponsiveContainer>
-          <p className="gem-hint">선이 0% 위에 있으면 보석 경로가 이득입니다. 실선은 겁화, 점선은 작열입니다.</p>
+          <p className="gem-hint">막대가 검은 세로선(직접 구매 시세)보다 짧으면 보석으로 사는 게 이득입니다.</p>
         </div>
       )}
 
